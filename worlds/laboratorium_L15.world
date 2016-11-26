@@ -1,5 +1,6 @@
 <sdf version='1.6'>
   <world name='default'>
+    <plugin name="PluginWorld" filename="libworld_plugin.so"/>
     <gui>
       <plugin name="PluginGUI" filename="libpp_gazebo_plugin.so"/>
     </gui>
