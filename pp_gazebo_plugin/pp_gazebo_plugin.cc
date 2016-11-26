@@ -96,7 +96,7 @@ GUIExampleTimeWidget::~GUIExampleTimeWidget()
 void GUIExampleTimeWidget::OnButton1()
 {
  QDialog *dialog1 = new QDialog();
- dialog1->setWindowTitle(tr("Konfiguracja eksperymentu")); 
+ dialog1->setWindowTitle(tr("Konfiguracja eksperymentu"));
  dialog1->show();
 }
 
