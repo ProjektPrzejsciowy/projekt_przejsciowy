@@ -26,8 +26,7 @@ oraz dodać utworzony folder **build** do zmiennej środowiskowej **GAZEBO_PLUGI
 ```
 export GAZEBO_PLUGIN_PATH=`pwd`
 ```
-Lepszym rozwiązaniem jest dodanie powyższej linii do pliku **.bashrc** (zamiast `pwd` należy podać pełną ścieżkę).
-
+Lepszym rozwiązaniem jest dodanie powyższej linii do pliku **.bashrc** (zamiast \`pwd\` należy podać pełną ścieżkę).
 Ponadto zawartość folderu **models** powinno się skopiować do folderu:
 ```
 ~/.gazebo/models
