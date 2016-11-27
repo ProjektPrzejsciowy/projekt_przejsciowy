@@ -21,8 +21,8 @@ target_link_libraries(world_plugin
    ${PROTOBUF_LIBRARIES}
 )
 
-QT4_WRAP_CPP(headers_MOC pp_gazebo_plugin.hh)
-add_library(pp_gazebo_plugin SHARED ${headers_MOC} pp_gazebo_plugin.cc)
+QT4_WRAP_CPP(headers_MOC pp_gazebo_plugin.hh WorldConfigurationWindow.hh)
+add_library(pp_gazebo_plugin SHARED ${headers_MOC} pp_gazebo_plugin.cc WorldConfigurationWindow.cc)
 target_link_libraries(pp_gazebo_plugin
    ${GAZEBO_LIBRARIES}
    ${QT_LIBRARIES}

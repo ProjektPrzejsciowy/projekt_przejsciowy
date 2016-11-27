@@ -1,13 +1,11 @@
-#include <string>
-#include <sstream>
 #include "pp_gazebo_plugin.hh"
-
+#include "WorldConfigurationWindow.hh"
+#include <string>
 
 using namespace gazebo;
 
 // Register this plugin with the simulator
 GZ_REGISTER_GUI_PLUGIN(SimulationGUI)
-
 
 SimulationGUI::SimulationGUI() : GUIPlugin()
 {
@@ -27,8 +25,8 @@ SimulationGUI::SimulationGUI() : GUIPlugin()
    QHBoxLayout *frameLayout = new QHBoxLayout();
 
    // Add buttons
-   QPushButton *button1 = new QPushButton(tr("Konfiguracja swiata (dodaj kulke)"));
-   QPushButton *button2 = new QPushButton(tr("Zarzadzanie robotami (usun modele)"));
+   QPushButton *button1 = new QPushButton(tr("Konfiguracja swiata"));
+   QPushButton *button2 = new QPushButton(tr("Zarzadzanie robotami"));
    QPushButton *button3 = new QPushButton(tr("Wyniki symulacji"));
 
    frameLayout->addWidget(button1);
@@ -54,60 +52,33 @@ SimulationGUI::SimulationGUI() : GUIPlugin()
    // Position and resize this widget
    this->move(0, 0);
    this->resize(800, 40);
-
-   // Create a node for transportation
-   this->node = transport::NodePtr(new transport::Node());
-   this->node->Init();
-
-   // Connect to gazebo topics
-   this->factoryPub = this->node->Advertise<msgs::Factory>("~/factory");
-   this->Pub = this->node->Advertise<msgs::Int>("~/buttons");
-
-   this->counter = 0;
 }
 
 SimulationGUI::~SimulationGUI()
 {
+
 }
 
 void SimulationGUI::OnButton1()
 {
-   msgs::Model model;
-   model.set_name("sphere_" + std::to_string(this->counter++));
-   msgs::Set(model.mutable_pose(), ignition::math::Pose3d(0, 0, 1.5, 0, 0, 0));
+   WorldConfigurationWindow *dialog1 = new WorldConfigurationWindow();
    
-   const double mass = 1.0;
-   const double radius = 0.5;
-   msgs::AddSphereLink(model, mass, radius);
-
-   std::ostringstream newModelStr;
-   newModelStr << "<sdf version='" << SDF_VERSION << "'>"
-               << msgs::ModelToSDF(model)->ToString("")
-               << "</sdf>";
-    
-   // printf("%s", newModelStr.str().c_str());
-
-   // Send the model to the gazebo server
-   msgs::Factory msg;
-   msg.set_sdf(newModelStr.str());
-   this->factoryPub->Publish(msg);
+   dialog1->setWindowTitle(tr("Konfiguracja swiata"));
+   dialog1->show();
 }
 
 void SimulationGUI::OnButton2()
 {
-   msgs::Int MyMsg;
-   MyMsg.set_data(this->counter);
-   this->Pub->Publish(MyMsg);
-   this->counter = 0;
+   QDialog *dialog2 = new QDialog();
+   
+   dialog2->setWindowTitle(tr("Zarzadzanie robotami"));
+   dialog2->show();
 }
 
 void SimulationGUI::OnButton3()
 {
-   QDialog *dialog1 = new QDialog();
-   dialog1->setWindowTitle(tr("Wyniki symulacji"));
+   QDialog *dialog3 = new QDialog();
    
-   QPushButton* tmpButton = new QPushButton("Przykladowy button", dialog1);
-   tmpButton->setGeometry(100, 100, 300, 100);
-
-   dialog1->show();
+   dialog3->setWindowTitle(tr("Wyniki symulacji"));
+   dialog3->show();
 }
