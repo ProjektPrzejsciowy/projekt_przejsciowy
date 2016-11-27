@@ -1,8 +1,8 @@
 <sdf version='1.6'>
   <world name='default'>
-    <plugin name="PluginWorld" filename="libworld_plugin.so"/>
+    <plugin name="WorldControl" filename="libworld_plugin.so"/>
     <gui>
-      <plugin name="PluginGUI" filename="libpp_gazebo_plugin.so"/>
+      <plugin name="SimulationGUI" filename="libpp_gazebo_plugin.so"/>
     </gui>
     <light name='direct_light' type='directional'>
       <cast_shadows>1</cast_shadows>

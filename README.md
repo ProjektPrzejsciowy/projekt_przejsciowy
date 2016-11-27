@@ -13,6 +13,7 @@ W związku z powyższym poprawiono plik **laboratorium_L15.world** między innym
   <plugin name="PluginGUI" filename="libpp_gazebo_plugin.so"/>
 </gui>
 ```
+Dodano plugin world odpowiadający za zarządzanie obiektami. Zapewniono komunikację typu Publisher-Subscriber między pluginami.
 
 ## Jak zacząć
 Aby zbudować projekt należy wykonać w folderze **pp_gazebo_plugin**:
@@ -27,8 +28,10 @@ oraz dodać utworzony folder **build** do zmiennej środowiskowej **GAZEBO_PLUGI
 export GAZEBO_PLUGIN_PATH=`pwd`
 ```
 Lepszym rozwiązaniem jest dodanie powyższej linii do pliku **.bashrc** (zamiast \`pwd\` należy podać pełną ścieżkę).
+
 Ponadto zawartość folderu **models** powinno się skopiować do folderu:
 ```
 ~/.gazebo/models
 ```
+Wtedy dostęp do modeli w Gazebo będzie również z poziomu zakładki **Insert**.
 
