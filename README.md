@@ -15,8 +15,12 @@ W związku z powyższym poprawiono plik **laboratorium_L15.world** między innym
 ```
 Dodano plugin world odpowiadający za zarządzanie obiektami. Zapewniono komunikację typu Publisher-Subscriber między pluginami.
 
+Dodano okno konfiguracji świata i obsługę dodawania oraz usuwania modeli.
+
+**UWAGA!** Zmiana nazwy katalogu ze źródłami na **src** oraz zmiana nazw kilku plików *.cc i *.hh oraz pluginów.
+
 ## Jak zacząć
-Aby zbudować projekt należy wykonać w folderze **pp_gazebo_plugin**:
+Aby zbudować projekt należy wykonać w folderze **src**:
 ```
 mkdir build
 cd build

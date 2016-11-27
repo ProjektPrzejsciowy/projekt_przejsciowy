@@ -1,4 +1,4 @@
-#include "world_plugin.hh"
+#include "WorldControl.hh"
 #include <iostream>
 #include <string>
 #include <vector>

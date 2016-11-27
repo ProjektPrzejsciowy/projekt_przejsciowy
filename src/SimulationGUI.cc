@@ -1,4 +1,4 @@
-#include "pp_gazebo_plugin.hh"
+#include "SimulationGUI.hh"
 #include "WorldConfigurationWindow.hh"
 #include <string>
 

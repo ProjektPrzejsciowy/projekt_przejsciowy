@@ -13,17 +13,17 @@ include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GAZEBO_CXX_FLAGS}")
 
-QT4_WRAP_CPP(headers_MOC world_plugin.hh)
-add_library(world_plugin SHARED ${headers_MOC} world_plugin.cc)
-target_link_libraries(world_plugin
+QT4_WRAP_CPP(headers_MOC WorldControl.hh)
+add_library(_world_control_plugin SHARED ${headers_MOC} WorldControl.cc)
+target_link_libraries(_world_control_plugin
    ${GAZEBO_LIBRARIES}
    ${QT_LIBRARIES}
    ${PROTOBUF_LIBRARIES}
 )
 
-QT4_WRAP_CPP(headers_MOC pp_gazebo_plugin.hh WorldConfigurationWindow.hh)
-add_library(pp_gazebo_plugin SHARED ${headers_MOC} pp_gazebo_plugin.cc WorldConfigurationWindow.cc)
-target_link_libraries(pp_gazebo_plugin
+QT4_WRAP_CPP(headers_MOC SimulationGUI.hh WorldConfigurationWindow.hh)
+add_library(_simulation_gui_plugin SHARED ${headers_MOC} SimulationGUI.cc WorldConfigurationWindow.cc)
+target_link_libraries(_simulation_gui_plugin
    ${GAZEBO_LIBRARIES}
    ${QT_LIBRARIES}
    ${PROTOBUF_LIBRARIES}
