@@ -1,36 +1,24 @@
-#include <sstream>
-#include <gazebo/physics/physics.hh>
-#include <gazebo/transport/transport.hh>
+#include <iostream>
 #include "world_plugin.hh"
+
 
 using namespace gazebo;
 
-GZ_REGISTER_WORLD_PLUGIN(NowySwiat)
+GZ_REGISTER_WORLD_PLUGIN(WorldControl)
 
-void NowySwiat::Load(physics::WorldPtr _parent, sdf::ElementPtr _sdf)
+
+void WorldControl::Load(physics::WorldPtr _parent, sdf::ElementPtr _sdf)
 {
-   this->parent = _parent;
+   this->world = _parent;
    
-   this->parent->GetName();
+   this->node = transport::NodePtr(new transport::Node());
+   this->node->Init();
    
-   // Create a new transport node
-   transport::NodePtr node(new transport::Node());
+   this->subscriber = node->Subscribe("~/buttons", &WorldControl::Received, this);
+}
 
-   // Initialize the node with the world name
-   node->Init(_parent->GetName());
-
-   // Create a publisher on the ~/physics topic
-   transport::PublisherPtr physicsPub =
-     node->Advertise<msgs::Physics>("~/physics");
-
-   msgs::Physics physicsMsg;
-   physicsMsg.set_type(msgs::Physics::ODE);
-
-   // Set the step time
-   physicsMsg.set_max_step_size(0.01);
-
-   // Change gravity
-   msgs::Set(physicsMsg.mutable_gravity(),
-       ignition::math::Vector3d(0.03, 0, -0.1));
-   physicsPub->Publish(physicsMsg);
+void WorldControl::Received(const boost::shared_ptr<const msgs::Int> &msg)
+{
+   std::cout << "Counter: " << msg->data() << std::endl;
+   world->Clear();
 }

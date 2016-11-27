@@ -17,8 +17,6 @@ QT4_WRAP_CPP(headers_MOC world_plugin.hh)
 add_library(world_plugin SHARED ${headers_MOC} world_plugin.cc)
 target_link_libraries(world_plugin
    ${GAZEBO_LIBRARIES}
-   ${OGRE_LIBRARIES}
-   ${OGRE-Terrain_LIBRARIES}
    ${QT_LIBRARIES}
    ${PROTOBUF_LIBRARIES}
 )
@@ -27,8 +25,6 @@ QT4_WRAP_CPP(headers_MOC pp_gazebo_plugin.hh)
 add_library(pp_gazebo_plugin SHARED ${headers_MOC} pp_gazebo_plugin.cc)
 target_link_libraries(pp_gazebo_plugin
    ${GAZEBO_LIBRARIES}
-   ${OGRE_LIBRARIES}
-   ${OGRE-Terrain_LIBRARIES}
    ${QT_LIBRARIES}
    ${PROTOBUF_LIBRARIES}
 )

@@ -1,13 +1,15 @@
+#include <string>
 #include <sstream>
-#include <gazebo/msgs/msgs.hh>
 #include "pp_gazebo_plugin.hh"
+
 
 using namespace gazebo;
 
 // Register this plugin with the simulator
-GZ_REGISTER_GUI_PLUGIN(GUIPPPlugin)
+GZ_REGISTER_GUI_PLUGIN(SimulationGUI)
 
-GUIPPPlugin::GUIPPPlugin() : GUIPlugin()
+
+SimulationGUI::SimulationGUI() : GUIPlugin()
 {
    QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
 
@@ -26,7 +28,7 @@ GUIPPPlugin::GUIPPPlugin() : GUIPlugin()
 
    // Add buttons
    QPushButton *button1 = new QPushButton(tr("Konfiguracja swiata (dodaj kulke)"));
-   QPushButton *button2 = new QPushButton(tr("Zarzadzanie robotami (usun kulke)"));
+   QPushButton *button2 = new QPushButton(tr("Zarzadzanie robotami (usun modele)"));
    QPushButton *button3 = new QPushButton(tr("Wyniki symulacji"));
 
    frameLayout->addWidget(button1);
@@ -59,16 +61,16 @@ GUIPPPlugin::GUIPPPlugin() : GUIPlugin()
 
    // Connect to gazebo topics
    this->factoryPub = this->node->Advertise<msgs::Factory>("~/factory");
-   this->requestPub = this->node->Advertise<msgs::Request>("~/request");
+   this->Pub = this->node->Advertise<msgs::Int>("~/buttons");
 
    this->counter = 0;
 }
 
-GUIPPPlugin::~GUIPPPlugin()
+SimulationGUI::~SimulationGUI()
 {
 }
 
-void GUIPPPlugin::OnButton1()
+void SimulationGUI::OnButton1()
 {
    msgs::Model model;
    model.set_name("sphere_" + std::to_string(this->counter++));
@@ -91,17 +93,15 @@ void GUIPPPlugin::OnButton1()
    this->factoryPub->Publish(msg);
 }
 
-void GUIPPPlugin::OnButton2()
+void SimulationGUI::OnButton2()
 {
-   if (this->counter > 0)
-   {
-      msgs::Request *msg = gazebo::msgs::CreateRequest("entity_delete",
-         "sphere_" + std::to_string(--this->counter));
-      this->requestPub->Publish(*msg);
-   }
+   msgs::Int MyMsg;
+   MyMsg.set_data(this->counter);
+   this->Pub->Publish(MyMsg);
+   this->counter = 0;
 }
 
-void GUIPPPlugin::OnButton3()
+void SimulationGUI::OnButton3()
 {
    QDialog *dialog1 = new QDialog();
    dialog1->setWindowTitle(tr("Wyniki symulacji"));

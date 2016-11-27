@@ -1,27 +1,26 @@
-#ifndef _GUIPPPLUGIN_HH_
-#define _GUIPPPLUGIN_HH_
+#ifndef _SIMULATION_GUI_HH_
+#define _SIMULATION_GUI_HH_
 
-#include <string>
-#include <gazebo/common/Plugin.hh>
 #include <gazebo/gui/GuiPlugin.hh>
-#ifndef Q_MOC_RUN  // See: https://bugreports.qt-project.org/browse/QTBUG-22829
-# include <gazebo/transport/transport.hh>
-# include <gazebo/gui/gui.hh>
+#ifndef Q_MOC_RUN
+   #include <gazebo/transport/transport.hh>
+   #include <gazebo/gui/gui.hh>
 #endif
+
 
 namespace gazebo
 {
-   class GAZEBO_VISIBLE GUIPPPlugin : public GUIPlugin
+   class GAZEBO_VISIBLE SimulationGUI : public GUIPlugin
    {
       Q_OBJECT
       
       public:
 
          // Constructor
-         GUIPPPlugin();
+         SimulationGUI();
 
          // Destructor
-         virtual ~GUIPPPlugin();
+         virtual ~SimulationGUI();
          
       protected slots:
 
@@ -42,8 +41,9 @@ namespace gazebo
          transport::PublisherPtr factoryPub;
       
          // Publisher of request messages
-         transport::PublisherPtr requestPub;
+         transport::PublisherPtr Pub;
    };
 }
+
 
 #endif
