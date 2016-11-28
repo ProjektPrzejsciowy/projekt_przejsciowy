@@ -1,5 +1,6 @@
 #include "SimulationGUI.hh"
 #include "WorldConfigurationWindow.hh"
+#include "ResultsWindow.hh"
 #include <string>
 
 using namespace gazebo;
@@ -77,7 +78,7 @@ void SimulationGUI::OnButton2()
 
 void SimulationGUI::OnButton3()
 {
-   QDialog *dialog3 = new QDialog();
+   ResultsWindow *dialog3 = new ResultsWindow();
    
    dialog3->setWindowTitle(tr("Wyniki symulacji"));
    dialog3->show();
