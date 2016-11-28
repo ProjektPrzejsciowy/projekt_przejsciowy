@@ -21,8 +21,8 @@ target_link_libraries(_world_control_plugin
    ${PROTOBUF_LIBRARIES}
 )
 
-QT4_WRAP_CPP(headers_MOC SimulationGUI.hh WorldConfigurationWindow.hh)
-add_library(_simulation_gui_plugin SHARED ${headers_MOC} SimulationGUI.cc WorldConfigurationWindow.cc)
+QT4_WRAP_CPP(headers_MOC SimulationGUI.hh WorldConfigurationWindow.hh RobotManagementWindow.hh)
+add_library(_simulation_gui_plugin SHARED ${headers_MOC} SimulationGUI.cc WorldConfigurationWindow.cc RobotManagementWindow.cc)
 target_link_libraries(_simulation_gui_plugin
    ${GAZEBO_LIBRARIES}
    ${QT_LIBRARIES}

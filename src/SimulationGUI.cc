@@ -1,5 +1,6 @@
 #include "SimulationGUI.hh"
 #include "WorldConfigurationWindow.hh"
+#include "RobotManagementWindow.hh"
 #include <string>
 
 using namespace gazebo;
@@ -69,7 +70,7 @@ void SimulationGUI::OnButton1()
 
 void SimulationGUI::OnButton2()
 {
-   QDialog *dialog2 = new QDialog();
+   RobotManagementWindow *dialog2 = new RobotManagementWindow();
    
    dialog2->setWindowTitle(tr("Zarzadzanie robotami"));
    dialog2->show();
