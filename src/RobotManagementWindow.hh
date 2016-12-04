@@ -1,6 +1,11 @@
 #ifndef _ROBOT_MANAGEMENT_WINDOW_HH_
 #define _ROBOT_MANAGEMENT_WINDOW_HH_
 
+#include "RobotManagementTab.hh"
+
+#include <vector>
+#include <string>
+
 #include <QDialog>
 #include <QListWidget>
 #include <QString>
@@ -22,41 +27,35 @@
 #include <QMetaObject>
 
 #ifndef Q_MOC_RUN
-	#include <gazebo/transport/transport.hh>
+#include <gazebo/transport/transport.hh>
 #endif
 
-class RobotManagementWindow : public QDialog
-{
-	Q_OBJECT
+class RobotManagementWindow : public QDialog {
+    Q_OBJECT
 
-   public:
-      RobotManagementWindow();
-      //~RobotManagementWindow(); // Nie moze byc destruktora, inaczej nie dziala!
+public:
+    RobotManagementWindow();
+    //~RobotManagementWindow(); // Nie moze byc destruktora, inaczej nie dziala!
 
-   private slots:
-		void on_pushButtonStartStop_clicked();
-      
-   private:
-		QTabWidget *tabWidgetRobots;
-		QWidget *tabRobot1;
-		QWidget *tabRobot2;
-		QWidget *verticalLayoutWidget;
-    	QVBoxLayout *verticalLayout;
-    	QLineEdit *lineEditX;
-		QLineEdit *lineEditY;
-		QLineEdit *lineEditOrient;
-		QSpacerItem *verticalSpacer;
-		// Ustawianie i resetowanie polozenia i orientacji
-		QHBoxLayout *horizontalLayout;
-		QPushButton *pushButtonUstaw;
-		QPushButton *pushButtonReset;
-		// Nazwa topicu
-		QLabel *labelTopicName;
-		// Przycisk start/stop
-		QPushButton *pushButtonStartStop;
-		QIcon icon_green;
-   		QIcon icon_red;
+private:
+    QTabWidget *tabWidgetRobots;
+    std::vector < QWidget * > tabRobots;
+    QWidget *tabRobot;    
+    // TODO - usunac te dwa przyciski
+    QPushButton *pushButtonDodaj;
+    QPushButton *pushButtonUsun;
 
+private slots:
+    void on_pushButtonDodaj_clicked();
+    void on_pushButtonUsun_clicked();
+
+public:
+    int robots_counter;
+
+private:
+    gazebo::transport::NodePtr node;
+    gazebo::transport::PublisherPtr publisher;
+    
 };
 
 #endif

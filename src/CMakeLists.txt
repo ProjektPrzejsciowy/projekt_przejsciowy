@@ -22,8 +22,8 @@ target_link_libraries(_world_control_plugin
 )
 
 
-QT4_WRAP_CPP(headers_MOC SimulationGUI.hh WorldConfigurationWindow.hh RobotManagementWindow.hh ResultsWindow.hh qcustomplot.h)
-add_library(_simulation_gui_plugin SHARED ${headers_MOC} SimulationGUI.cc WorldConfigurationWindow.cc RobotManagementWindow.cc ResultsWindow.cc qcustomplot.cpp)
+QT4_WRAP_CPP(headers_MOC SimulationGUI.hh WorldConfigurationWindow.hh RobotManagementWindow.hh RobotManagementTab.hh ResultsWindow.hh qcustomplot.h)
+add_library(_simulation_gui_plugin SHARED ${headers_MOC} SimulationGUI.cc WorldConfigurationWindow.cc RobotManagementWindow.cc RobotManagementTab.cc ResultsWindow.cc qcustomplot.cpp)
 target_link_libraries(_simulation_gui_plugin
    ${GAZEBO_LIBRARIES}
    ${QT_LIBRARIES}
