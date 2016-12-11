@@ -22,12 +22,18 @@ class WorldConfigurationWindow : public QDialog
       QString labName;
       QVector<QString> addedRobots;
 
+      QPushButton *pushButtonZatwierdz;
+   
    private slots:
       void OnButtonLoad();
       void OnButtonClear();
       void OnButtonAddRobot();
       void OnButtonDeleteRobot();
+      void OnPushButtonZatwierdz();
       
+   signals:
+      void addNewRobot();
+
    private:
       gazebo::transport::NodePtr node;
       gazebo::transport::PublisherPtr publisher;

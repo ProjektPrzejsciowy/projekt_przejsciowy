@@ -67,13 +67,19 @@ RobotManagementTab::RobotManagementTab() :
     pushButtonStartStop->setObjectName ( "pushButtonStartStop" );
     pushButtonStartStop->setText ( QString() );
     pushButtonStartStop->setGeometry ( QRect ( 220, 140, 81, 51 ) );
-    icon_green.addFile ( "../../res/glossy-green-button.png", QSize(), QIcon::Normal, QIcon::Off );
-    icon_red.addFile ( "../../res/glossy-red-button.png", QSize(), QIcon::Normal, QIcon::Off );
-    pushButtonStartStop->setIcon ( icon_green );
+    icon_green.addFile ( "/root/projekt_przejsciowy/res/glossy-green-button.png", QSize(), QIcon::Normal, QIcon::Off ); 
+    icon_red.addFile ( "/root/projekt_przejsciowy/res/glossy-red-button.png", QSize(), QIcon::Normal, QIcon::Off );
+    pushButtonStartStop->setIcon ( icon_green ); 
     pushButtonStartStop->setIconSize ( QSize ( 50, 50 ) );
 
     // Sloty
     QMetaObject::connectSlotsByName ( this );
+
+    // Transport wiadomosci
+   //this->node = gazebo::transport::NodePtr ( new gazebo::transport::Node() );
+   //this->node->Init();
+   //this->publisher = this->node->Advertise<gazebo::msgs::Int> ( "~/buttons" ); // Topic okreslony w WorldControl.cc
+   //this->subscriber = this->node->Subscribe( "~/buttons", &RobotManagementTab::receivedMsg, this );
     
 }
 
@@ -91,8 +97,7 @@ void RobotManagementTab::on_pushButtonStartStop_clicked() {
 }
 
 void RobotManagementTab::on_pushButtonUstaw_clicked() {
-    // TODO 
-    
+    //TODO
 }
 
 void RobotManagementTab::on_pushButtonReset_clicked() {

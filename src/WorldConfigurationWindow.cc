@@ -35,6 +35,10 @@ WorldConfigurationWindow::WorldConfigurationWindow() : QDialog()
    QPushButton *buttonDeleteRobot = new QPushButton("Usun",this);
    buttonDeleteRobot->setGeometry(QRect(QPoint(475, 85),QSize(60, 30)));
    connect(buttonDeleteRobot, SIGNAL(clicked()), this, SLOT(OnButtonDeleteRobot()));
+
+   pushButtonZatwierdz = new QPushButton("Zatwierdz",this);
+   pushButtonZatwierdz->setGeometry(QRect(QPoint(740-120, 170),QSize(120, 30)));
+   connect(pushButtonZatwierdz, SIGNAL(clicked()), this, SLOT(OnPushButtonZatwierdz()));
    
    this->adjustSize();
    
@@ -79,3 +83,14 @@ void WorldConfigurationWindow::OnButtonDeleteRobot()
    QListWidgetItem *item = addedRobotList->takeItem(addedRobotList->currentRow());
    robotListToAdd->addItem(item);
 }
+
+void WorldConfigurationWindow::OnPushButtonZatwierdz() // TODO kilka robotow OBOK siebie, o INNYCH nazwach
+{
+    gazebo::msgs::Int msg;
+    msg.set_data(2);                  // switch in WorldControl.cc file
+    for (int i=0; i<addedRobotList->count(); ++i) {
+        emit addNewRobot();
+        this->publisher->Publish(msg); 
+    }
+}
+

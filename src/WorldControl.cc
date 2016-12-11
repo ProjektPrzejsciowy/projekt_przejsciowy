@@ -33,6 +33,9 @@ void WorldControl::Received(const boost::shared_ptr<const msgs::Int> &msg)
       case 1:
          world->InsertModelFile("model://stol");
          break;
+      case 2:
+         world->InsertModelFile("model://pioneer2dx_with_sensors"); // model name from .gazebo/models
+         break;
       case 99:
          physics::Model_V modelList(world->GetModels());
          // Usuń wszystko oprócz ground_plane

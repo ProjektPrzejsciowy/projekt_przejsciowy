@@ -38,12 +38,7 @@ RobotManagementWindow::RobotManagementWindow() :
 
 void RobotManagementWindow::on_pushButtonDodaj_clicked() {
     // TODO 
-    tabRobot = new RobotManagementTab();
-    tabRobots.push_back ( tabRobot );
-    tabWidgetRobots->addTab ( tabRobot, QString() );
-    tabWidgetRobots->setTabText ( tabWidgetRobots->indexOf ( tabRobot ), "Robot1" );
-    tabWidgetRobots->setCurrentIndex ( robots_counter++ );
-	cout << robots_counter << endl;
+    addNewTab();
 }
 
 void RobotManagementWindow::on_pushButtonUsun_clicked() {
@@ -53,5 +48,18 @@ void RobotManagementWindow::on_pushButtonUsun_clicked() {
     tabWidgetRobots->removeTab ( tabWidgetRobots->indexOf ( tabRobot ) );
     tabWidgetRobots->setCurrentIndex ( --robots_counter );
 	cout << robots_counter << endl;
+}
+
+void RobotManagementWindow::addNewTab() {
+    tabRobot = new RobotManagementTab();
+    tabRobots.push_back ( tabRobot );
+    tabWidgetRobots->addTab ( tabRobot, QString() );
+    tabWidgetRobots->setTabText ( tabWidgetRobots->indexOf ( tabRobot ), "Robot1" );
+    tabWidgetRobots->setCurrentIndex ( robots_counter++ );
+    cout << robots_counter << endl;
+}
+
+void RobotManagementWindow::onAddNewRobot() {
+    addNewTab(); 
 }
 

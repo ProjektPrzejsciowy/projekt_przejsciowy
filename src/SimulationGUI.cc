@@ -1,7 +1,4 @@
 #include "SimulationGUI.hh"
-#include "WorldConfigurationWindow.hh"
-#include "RobotManagementWindow.hh"
-#include "ResultsWindow.hh"
 #include <string>
 
 using namespace gazebo;
@@ -34,7 +31,8 @@ SimulationGUI::SimulationGUI() : GUIPlugin()
    frameLayout->addWidget(button1);
    frameLayout->addWidget(button2);
    frameLayout->addWidget(button3);
-
+   
+   // Connecting
    connect(button1, SIGNAL(clicked()), this, SLOT(OnButton1()));
    connect(button2, SIGNAL(clicked()), this, SLOT(OnButton2()));
    connect(button3, SIGNAL(clicked()), this, SLOT(OnButton3()));
@@ -54,6 +52,17 @@ SimulationGUI::SimulationGUI() : GUIPlugin()
    // Position and resize this widget
    this->move(0, 0);
    this->resize(800, 40);
+
+   // Create windows
+   dialog1 = new WorldConfigurationWindow();
+   dialog1->setWindowTitle(tr("Konfiguracja swiata"));
+   dialog2 = new RobotManagementWindow();
+   dialog2->setWindowTitle(tr("Zarzadzanie robotami"));
+   dialog3 = new ResultsWindow();
+   dialog3->setWindowTitle(tr("Wyniki symulacji"));
+   // Connect
+   connect(dialog1, SIGNAL(addNewRobot()), 
+           dialog2, SLOT(onAddNewRobot()));
 }
 
 SimulationGUI::~SimulationGUI()
@@ -63,24 +72,15 @@ SimulationGUI::~SimulationGUI()
 
 void SimulationGUI::OnButton1()
 {
-   WorldConfigurationWindow *dialog1 = new WorldConfigurationWindow();
-   
-   dialog1->setWindowTitle(tr("Konfiguracja swiata"));
    dialog1->show();
 }
 
 void SimulationGUI::OnButton2()
 {
-   RobotManagementWindow *dialog2 = new RobotManagementWindow();
-   
-   dialog2->setWindowTitle(tr("Zarzadzanie robotami"));
    dialog2->show();
 }
 
 void SimulationGUI::OnButton3()
 {
-   ResultsWindow *dialog3 = new ResultsWindow();
-   
-   dialog3->setWindowTitle(tr("Wyniki symulacji"));
    dialog3->show();
 }

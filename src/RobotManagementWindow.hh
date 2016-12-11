@@ -36,6 +36,8 @@ class RobotManagementWindow : public QDialog {
 public:
     RobotManagementWindow();
     //~RobotManagementWindow(); // Nie moze byc destruktora, inaczej nie dziala!
+    void addNewTab();
+    //void receivedMsg ( const boost::shared_ptr<const gazebo::msgs::Int> &msg );
 
 private:
     QTabWidget *tabWidgetRobots;
@@ -45,6 +47,9 @@ private:
     QPushButton *pushButtonDodaj;
     QPushButton *pushButtonUsun;
 
+public slots:
+    void onAddNewRobot();
+
 private slots:
     void on_pushButtonDodaj_clicked();
     void on_pushButtonUsun_clicked();
@@ -53,8 +58,9 @@ public:
     int robots_counter;
 
 private:
-    gazebo::transport::NodePtr node;
-    gazebo::transport::PublisherPtr publisher;
+    //gazebo::transport::NodePtr node;
+    //gazebo::transport::PublisherPtr publisher;
+    //gazebo::transport::SubscriberPtr subscriber;
     
 };
 

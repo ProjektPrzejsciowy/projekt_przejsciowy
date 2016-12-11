@@ -7,6 +7,10 @@
    #include <gazebo/gui/gui.hh>
 #endif
 
+#include "WorldConfigurationWindow.hh"
+#include "RobotManagementWindow.hh"
+#include "ResultsWindow.hh"
+
 namespace gazebo
 {
    class GAZEBO_VISIBLE SimulationGUI : public GUIPlugin
@@ -21,6 +25,11 @@ namespace gazebo
          void OnButton1();
          void OnButton2();
          void OnButton3();
+      
+      private:
+         WorldConfigurationWindow *dialog1;
+         RobotManagementWindow *dialog2;
+         ResultsWindow *dialog3;
    };
 }
 

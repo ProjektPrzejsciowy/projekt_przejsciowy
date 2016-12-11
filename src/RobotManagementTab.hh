@@ -37,6 +37,7 @@ private:
 
 public:
     RobotManagementTab();
+    void receivedMsg ( const boost::shared_ptr<const gazebo::msgs::Int> &msg );
 
 private slots:
     void on_pushButtonStartStop_clicked();
@@ -60,6 +61,12 @@ private:
     QPushButton *pushButtonStartStop;
     QIcon icon_green;
     QIcon icon_red;
+
+// Transport messages
+//private:
+    //gazebo::transport::NodePtr node;
+    //gazebo::transport::PublisherPtr publisher;
+    //gazebo::transport::SubscriberPtr subscriber;
 
 };
 
