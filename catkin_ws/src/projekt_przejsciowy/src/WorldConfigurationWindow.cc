@@ -88,7 +88,7 @@ void WorldConfigurationWindow::OnButtonDeleteRobot()
 void WorldConfigurationWindow::OnPushButtonZatwierdz() // TODO kilka robotow OBOK siebie, o INNYCH nazwach
 {
     gazebo::msgs::Int msg;
-    msg.set_data(2);                  // switch in WorldControl.cc file
+    msg.set_data(98);                  // switch in WorldControl.cc file
     for (int i=0; i<addedRobotList->count(); ++i) {
         emit addNewRobot();
         this->publisher->Publish(msg); 

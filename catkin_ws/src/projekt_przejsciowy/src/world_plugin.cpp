@@ -39,6 +39,9 @@ void Received(const boost::shared_ptr<const msgs::Int> &msg)
 	   std::cout << "topic_" << it - master_topics.begin() << ": " << info.name << std::endl;
 	 }
          break;
+      case 98:
+	 world->InsertModelFile("model://pioneer2dx_with_sensors"); // insert model from .gazebo/models
+	 break;
       case 99:
          physics::Model_V modelList(world->GetModels());
          // Usuń wszystko oprócz ground_plane
