@@ -23,15 +23,15 @@ cd build
 cmake ../
 make
 ```
-oraz dodać utworzony folder **build** do zmiennej środowiskowej **GAZEBO_PLUGIN_PATH**. Tymczasowym rozwiązaniem jest wykonywanie w folderze:
+Zbudowane pluginy z rozszerzeniem **.so** należy umieścić w katalogu
 ```
-export GAZEBO_PLUGIN_PATH=`pwd`
+/root/.gazebo/plugins/
 ```
-Lepszym rozwiązaniem jest dodanie powyższej linii do pliku **.bashrc** (zamiast \`pwd\` należy podać pełną ścieżkę).
-
-Ponadto zawartość folderu **models** należy skopiować do folderu:
+W przypdaku dodania nowych zasobów lub modyfikacji (np. ikony przycisków) należy dodać je do katalogu
 ```
-~/.gazebo/models
+/root/.gazebo/res/
 ```
-Wtedy dostęp do modeli w Gazebo będzie również z poziomu zakładki **Insert**.
-
+Modele obiektów Gazebo znajdują się w katalogu
+```
+/root/.gazebo/models/
+```

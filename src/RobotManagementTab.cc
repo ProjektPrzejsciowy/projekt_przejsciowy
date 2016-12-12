@@ -67,8 +67,8 @@ RobotManagementTab::RobotManagementTab() :
     pushButtonStartStop->setObjectName ( "pushButtonStartStop" );
     pushButtonStartStop->setText ( QString() );
     pushButtonStartStop->setGeometry ( QRect ( 220, 140, 81, 51 ) );
-    icon_green.addFile ( "/root/projekt_przejsciowy/res/glossy-green-button.png", QSize(), QIcon::Normal, QIcon::Off ); 
-    icon_red.addFile ( "/root/projekt_przejsciowy/res/glossy-red-button.png", QSize(), QIcon::Normal, QIcon::Off );
+    icon_green.addFile ( "/root/.gazebo/res/glossy-green-button.png", QSize(), QIcon::Normal, QIcon::Off ); 
+    icon_red.addFile ( "/root/.gazebo/res/glossy-red-button.png", QSize(), QIcon::Normal, QIcon::Off );
     pushButtonStartStop->setIcon ( icon_green ); 
     pushButtonStartStop->setIconSize ( QSize ( 50, 50 ) );
 
