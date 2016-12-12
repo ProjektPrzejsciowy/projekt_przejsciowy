@@ -1,4 +1,8 @@
 #include "RobotManagementTab.hh"
+#include <cstdlib>
+#include <ros/ros.h>
+#include <cmath>
+#include <string>
 
 using namespace std;
 
@@ -97,10 +101,37 @@ void RobotManagementTab::on_pushButtonStartStop_clicked() {
 }
 
 void RobotManagementTab::on_pushButtonUstaw_clicked() {
-    //TODO
+    bool correct;
+
+    lineEditX->text().toFloat(&correct);
+    if(!correct)
+    {
+	ROS_INFO("Wrong X-coordinate!!");
+	return;
+    }
+
+    lineEditY->text().toFloat(&correct);
+    if(!correct)
+    {
+	ROS_INFO("Wrong Y-coordinate!!");
+	return;
+    }      
+
+    float orient = lineEditOrient->text().toFloat(&correct);
+    if(!correct)
+    {
+	ROS_INFO("Wrong Orientation!!");
+	return;
+    }
+
+    float w = cos(orient/2), z = sin(orient/2);   
+
+    string command = "rosservice call /gazebo/set_model_state '{model_state: { model_name: pioneer2dx_with_sensors, pose: { position: { x: " + lineEditX->text().toStdString() + ", y: " + lineEditY->text().toStdString() + ",z: 0 }, orientation: {x: 0, y: 0, z: "+ to_string(z) + ", w: " + to_string(w) +" } }, twist: { linear: {x: 0.0 , y: 0 ,z: 0 } , angular: { x: 0.0 , y: 0 , z: 0.0 } } , reference_frame: world } }'";
+    system(command.c_str());
 }
 
 void RobotManagementTab::on_pushButtonReset_clicked() {
-    // TODO
+    string command = "rosservice call /gazebo/set_model_state '{model_state: { model_name: pioneer2dx_with_sensors, pose: { position: { x: 0, y: 0 ,z: 0 }, orientation: {x: 0, y: 0, z: 0, w: 1 } }, twist: { linear: {x: 0.0 , y: 0 ,z: 0 } , angular: { x: 0.0 , y: 0 , z: 0.0 } } , reference_frame: world } }'";
+    system(command.c_str());
 }
 
