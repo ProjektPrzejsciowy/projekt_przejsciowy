@@ -1,0 +1,8 @@
+prefix=/root/catkin_ws/devel
+
+Name: projekt_przejsciowy
+Description: Description of projekt_przejsciowy
+Version: 0.0.0
+Cflags: 
+Libs: -L/root/catkin_ws/devel/lib 
+Requires: roscpp gazebo_ros
