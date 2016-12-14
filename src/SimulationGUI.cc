@@ -61,8 +61,8 @@ SimulationGUI::SimulationGUI() : GUIPlugin()
    dialog3 = new ResultsWindow();
    dialog3->setWindowTitle(tr("Wyniki symulacji"));
    // Connect
-   connect(dialog1, SIGNAL(addNewRobot()), 
-           dialog2, SLOT(onAddNewRobot()));
+   connect(dialog1, SIGNAL(addNewRobot(int)), 
+           dialog2, SLOT(onAddNewRobot(int)));
 }
 
 SimulationGUI::~SimulationGUI()

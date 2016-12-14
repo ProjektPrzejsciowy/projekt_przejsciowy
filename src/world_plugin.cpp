@@ -6,6 +6,7 @@
 #include <ros/ros.h>
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <vector>
 
 using namespace std;
@@ -39,10 +40,47 @@ void Received(const boost::shared_ptr<const msgs::Int> &msg)
 	   std::cout << "topic_" << it - master_topics.begin() << ": " << info.name << std::endl;
 	 }
          break;
-      case 98:
-	 world->InsertModelFile("model://pioneer2dx_with_sensors"); // insert model from .gazebo/models
-	 break;
-      case 99:
+      case 101:case 102:case 103:case 104:case 105:case 106:case 107: // up to 7 robots
+      {
+        int robot_id = msg->data() % 100;
+        ostringstream robot_name;
+        robot_name << "pioneer_" << robot_id;
+        bool already = false;
+        // find if robot is already in the world
+        physics::Model_V modelList(world->GetModels());
+        for (physics::Model_V::iterator it = modelList.begin(); it != modelList.end(); ++it) {
+            if (robot_name.str().compare((*it)->GetName()) == 0) {
+               already = true;
+               break;
+            }
+        } 
+        // if there is no sucha a robot, add it
+        if (!already) {
+            sdf::SDF mySDF;
+            sdf::ElementPtr model;
+            string sdf_string;
+            ostringstream robot_name;
+            ifstream file;
+            // Open sdf file and assign its content to a string
+            file.open("/root/.gazebo/models/pioneer2dx_with_sensors/model.sdf");
+            file.seekg(0, ios::end); 
+            sdf_string.reserve(file.tellg());
+            file.seekg(0, ios::beg);
+            sdf_string.assign((istreambuf_iterator<char>(file)), istreambuf_iterator<char>());
+            // Get model and change its name    
+            mySDF.SetFromString(sdf_string);
+            model = mySDF.Root()->GetElement( "model" );
+            robot_name << "pioneer_" << robot_id;
+            model->GetAttribute( "name" )->SetFromString ( robot_name.str() );
+            // Add robot with a new name to the world at a given pose
+            math::Pose pose(0, 0, 0, 0, 0, 0);
+            model->AddElement("pose")->Set(pose);
+            world->InsertModelSDF(mySDF);
+            //world->InsertModelFile("model://pioneer2dx_with_sensors"); // insert model from .gazebo/models
+        }   
+        break;
+      }
+     case 99:
          physics::Model_V modelList(world->GetModels());
          // Usuń wszystko oprócz ground_plane
          for (physics::Model_V::iterator it = modelList.begin(); it != modelList.end(); ++it)

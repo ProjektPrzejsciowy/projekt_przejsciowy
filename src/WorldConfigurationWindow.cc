@@ -85,13 +85,15 @@ void WorldConfigurationWindow::OnButtonDeleteRobot()
    robotListToAdd->addItem(item);
 }
 
-void WorldConfigurationWindow::OnPushButtonZatwierdz() // TODO kilka robotow OBOK siebie, o INNYCH nazwach
+void WorldConfigurationWindow::OnPushButtonZatwierdz()
 {
     gazebo::msgs::Int msg;
-    msg.set_data(98);                  // switch in WorldControl.cc file
     for (int i=0; i<addedRobotList->count(); ++i) {
-        emit addNewRobot();
+        string robot_name = addedRobotList->item(i)->text().toStdString();
+        int robot_id = robot_name[robot_name.length()-1] - '0';
+        msg.set_data( 100 + robot_id );  // switch in world_plugin.cc 
         this->publisher->Publish(msg); 
+        emit addNewRobot(robot_id);
     }
 }
 

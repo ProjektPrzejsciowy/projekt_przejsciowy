@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <string>
+#include <sstream>
 
 #include <QDialog>
 #include <QListWidget>
@@ -36,7 +37,7 @@ class RobotManagementWindow : public QDialog {
 public:
     RobotManagementWindow();
     //~RobotManagementWindow(); // Nie moze byc destruktora, inaczej nie dziala!
-    void addNewTab();
+    void addNewTab(std::string tab_name);
     //void receivedMsg ( const boost::shared_ptr<const gazebo::msgs::Int> &msg );
 
 private:
@@ -44,14 +45,12 @@ private:
     std::vector < QWidget * > tabRobots;
     QWidget *tabRobot;    
     // TODO - usunac te dwa przyciski
-    QPushButton *pushButtonDodaj;
     QPushButton *pushButtonUsun;
 
 public slots:
-    void onAddNewRobot();
+    void onAddNewRobot(int id);
 
 private slots:
-    void on_pushButtonDodaj_clicked();
     void on_pushButtonUsun_clicked();
 
 public:

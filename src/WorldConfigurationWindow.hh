@@ -5,6 +5,7 @@
 #include <QListWidget>
 #include <QString>
 #include <QVector>
+#include <cstdlib>
 
 #ifndef Q_MOC_RUN
    #include <gazebo/transport/transport.hh>
@@ -32,7 +33,7 @@ class WorldConfigurationWindow : public QDialog
       void OnPushButtonZatwierdz();
       
    signals:
-      void addNewRobot();
+      void addNewRobot(int id);
 
    private:
       gazebo::transport::NodePtr node;
