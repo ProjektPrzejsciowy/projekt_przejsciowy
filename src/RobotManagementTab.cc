@@ -84,7 +84,6 @@ RobotManagementTab::RobotManagementTab() :
    //this->node->Init();
    //this->publisher = this->node->Advertise<gazebo::msgs::Int> ( "~/buttons" ); // Topic okreslony w WorldControl.cc
    //this->subscriber = this->node->Subscribe( "~/buttons", &RobotManagementTab::receivedMsg, this );
-    
 }
 
 void RobotManagementTab::on_pushButtonStartStop_clicked() {
