@@ -35,7 +35,7 @@ void RobotManagementWindow::on_pushButtonUsun_clicked() {
 }
 
 void RobotManagementWindow::addNewTab(string tab_name) {
-    tabRobot = new RobotManagementTab();
+    tabRobot = new RobotManagementTab(tab_name);
     tabRobots.push_back ( tabRobot );
     tabWidgetRobots->addTab ( tabRobot, QString() );
     tabWidgetRobots->setTabText ( tabWidgetRobots->indexOf ( tabRobot ), tab_name.c_str() );

@@ -36,7 +36,8 @@ private:
     State state;
 
 public:
-    RobotManagementTab();
+    RobotManagementTab(std::string topicName);
+    RobotManagementTab() = delete;
     void receivedMsg ( const boost::shared_ptr<const gazebo::msgs::Int> &msg );
 
 private slots:

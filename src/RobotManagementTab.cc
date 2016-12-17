@@ -6,7 +6,7 @@
 
 using namespace std;
 
-RobotManagementTab::RobotManagementTab() :
+RobotManagementTab::RobotManagementTab(string topicName) :
     QWidget(),
     state(Start) {
 	
@@ -63,7 +63,7 @@ RobotManagementTab::RobotManagementTab() :
     // Nazwa topicu
     labelTopicName = new QLabel ( this );
     labelTopicName->setObjectName ( "labelTopicName" );
-    labelTopicName->setText ( "Nazwa topicu" );
+    labelTopicName->setText ( QString::fromStdString(topicName) );
     labelTopicName->setGeometry ( QRect ( 210, 50, 121, 21 ) );
 
     // Przycisk start/stop
@@ -123,14 +123,16 @@ void RobotManagementTab::on_pushButtonUstaw_clicked() {
 	return;
     }
 
-    float w = cos(orient/2), z = sin(orient/2);   
+    float w = cos(orient/2), z = sin(orient/2);
+    string topicName = labelTopicName->text().toStdString();   
 
-    string command = "rosservice call /gazebo/set_model_state '{model_state: { model_name: pioneer2dx_with_sensors, pose: { position: { x: " + lineEditX->text().toStdString() + ", y: " + lineEditY->text().toStdString() + ",z: 0 }, orientation: {x: 0, y: 0, z: "+ to_string(z) + ", w: " + to_string(w) +" } }, twist: { linear: {x: 0.0 , y: 0 ,z: 0 } , angular: { x: 0.0 , y: 0 , z: 0.0 } } , reference_frame: world } }'";
+    string command = "rosservice call /gazebo/set_model_state '{model_state: { model_name: " + topicName + ", pose: { position: { x: " + lineEditX->text().toStdString() + ", y: " + lineEditY->text().toStdString() + ",z: 0 }, orientation: {x: 0, y: 0, z: "+ to_string(z) + ", w: " + to_string(w) +" } }, twist: { linear: {x: 0.0 , y: 0 ,z: 0 } , angular: { x: 0.0 , y: 0 , z: 0.0 } } , reference_frame: world } }'";
     system(command.c_str());
 }
 
 void RobotManagementTab::on_pushButtonReset_clicked() {
-    string command = "rosservice call /gazebo/set_model_state '{model_state: { model_name: pioneer2dx_with_sensors, pose: { position: { x: 0, y: 0 ,z: 0 }, orientation: {x: 0, y: 0, z: 0, w: 1 } }, twist: { linear: {x: 0.0 , y: 0 ,z: 0 } , angular: { x: 0.0 , y: 0 , z: 0.0 } } , reference_frame: world } }'";
+    string topicName = labelTopicName->text().toStdString();   
+    string command = "rosservice call /gazebo/set_model_state '{model_state: { model_name: "+ topicName + ", pose: { position: { x: 0, y: 0 ,z: 0 }, orientation: {x: 0, y: 0, z: 0, w: 1 } }, twist: { linear: {x: 0.0 , y: 0 ,z: 0 } , angular: { x: 0.0 , y: 0 , z: 0.0 } } , reference_frame: world } }'";
     system(command.c_str());
 }
 
