@@ -6,6 +6,8 @@ using namespace gazebo;
 
 WorldConfigurationWindow::WorldConfigurationWindow() : QDialog()
 {
+   this->setWindowFlags(Qt::WindowStaysOnTopHint);
+
    laboratoryList = new QListWidget(this);
    laboratoryList->setGeometry(QRect(QPoint(10, 10),QSize(250, 150)));
    laboratoryList->addItem("Laboratorium L1.5");
@@ -42,6 +44,7 @@ WorldConfigurationWindow::WorldConfigurationWindow() : QDialog()
    connect(pushButtonZatwierdz, SIGNAL(clicked()), this, SLOT(OnPushButtonZatwierdz()));
    
    this->adjustSize();
+   this->setFixedSize(this->size());
    
    // Potrzebne dla transportu wiadomości
    this->node = transport::NodePtr(new transport::Node());
