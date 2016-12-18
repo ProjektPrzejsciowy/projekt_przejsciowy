@@ -64,11 +64,10 @@ private:
     QIcon icon_red;
 
 // Transport messages
-//private:
-    //gazebo::transport::NodePtr node;
-    //gazebo::transport::PublisherPtr publisher;
-    //gazebo::transport::SubscriberPtr subscriber;
-
+private:
+    gazebo::transport::NodePtr node;
+    gazebo::transport::PublisherPtr publisher;
+    
 };
 
 #endif

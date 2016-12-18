@@ -13,7 +13,7 @@ RobotManagementTab::RobotManagementTab(string topicName) :
     // Lewa czesc - ustawianie polozenia i orientacji
     verticalLayoutWidget = new QWidget ( this );
     verticalLayoutWidget->setObjectName ( "verticalLayoutWidget" );
-    verticalLayoutWidget->setGeometry ( QRect ( QPoint(20, 50), QSize(150, 90)) );// 171, 141 ) );
+    verticalLayoutWidget->setGeometry ( QRect ( QPoint(20, 20), QSize(150, 90)) );
     verticalLayout = new QVBoxLayout ( verticalLayoutWidget );
     verticalLayout->setSpacing ( 6 );
     verticalLayout->setContentsMargins ( 11, 11, 11, 11 );
@@ -64,13 +64,13 @@ RobotManagementTab::RobotManagementTab(string topicName) :
     labelTopicName = new QLabel ( this );
     labelTopicName->setObjectName ( "labelTopicName" );
     labelTopicName->setText ( QString::fromStdString(topicName) );
-    labelTopicName->setGeometry ( QRect ( 210, 50, 121, 21 ) );
+    labelTopicName->setGeometry ( QRect ( 210, 20, 120, 20 ) );
 
     // Przycisk start/stop
     pushButtonStartStop = new QPushButton ( this );
     pushButtonStartStop->setObjectName ( "pushButtonStartStop" );
     pushButtonStartStop->setText ( QString() );
-    pushButtonStartStop->setGeometry ( QRect ( 220, 140, 81, 51 ) );
+    pushButtonStartStop->setGeometry ( QRect ( 210, 50, 50, 50 ) );
     icon_green.addFile ( "/root/catkin_ws/src/projekt_przejsciowy/res/glossy-green-button.png", QSize(), QIcon::Normal, QIcon::Off ); 
     icon_red.addFile ( "/root/catkin_ws/src/projekt_przejsciowy/res/glossy-red-button.png", QSize(), QIcon::Normal, QIcon::Off );
     pushButtonStartStop->setIcon ( icon_green ); 
@@ -80,10 +80,9 @@ RobotManagementTab::RobotManagementTab(string topicName) :
     QMetaObject::connectSlotsByName ( this );
 
     // Transport wiadomosci
-   //this->node = gazebo::transport::NodePtr ( new gazebo::transport::Node() );
-   //this->node->Init();
-   //this->publisher = this->node->Advertise<gazebo::msgs::Int> ( "~/buttons" ); // Topic okreslony w WorldControl.cc
-   //this->subscriber = this->node->Subscribe( "~/buttons", &RobotManagementTab::receivedMsg, this );
+   this->node = gazebo::transport::NodePtr ( new gazebo::transport::Node() );
+   this->node->Init();
+   this->publisher = this->node->Advertise<gazebo::msgs::Int> ( "~/buttons" ); // Topic okreslony w WorldControl.cc
 }
 
 void RobotManagementTab::on_pushButtonStartStop_clicked() {
@@ -91,6 +90,15 @@ void RobotManagementTab::on_pushButtonStartStop_clicked() {
         state = Stop;
         pushButtonStartStop->setIcon ( icon_red );
         pushButtonStartStop->setIconSize ( QSize ( 40, 40 ) );
+        
+        // TODO ponizsze przeniesc do WorldConfiguration ->przycisk Zatwierdz
+        gazebo::msgs::Int msg;
+        string topicName = labelTopicName->text().toStdString(); 
+        int robot_id = topicName[topicName.length()-1] - '0';
+        cout << robot_id << endl;
+        msg.set_data( 200 + robot_id );  // switch in world_plugin.cc 
+        this->publisher->Publish(msg); 
+        //emit deleteRobot(robot_id); TODO
     }
     else {
         state = Start;

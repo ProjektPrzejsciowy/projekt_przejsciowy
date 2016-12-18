@@ -26,6 +26,7 @@
 #include <QVBoxLayout>
 #include <QWidget>
 #include <QMetaObject>
+#include <QDesktopWidget>
 
 #ifndef Q_MOC_RUN
 #include <gazebo/transport/transport.hh>
@@ -44,8 +45,6 @@ private:
     QTabWidget *tabWidgetRobots;
     std::vector < QWidget * > tabRobots;
     QWidget *tabRobot;    
-    // TODO - usunac te dwa przyciski
-    QPushButton *pushButtonUsun;
 
 public slots:
     void onAddNewRobot(int id);

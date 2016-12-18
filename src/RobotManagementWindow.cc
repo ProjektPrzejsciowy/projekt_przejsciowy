@@ -9,30 +9,32 @@ RobotManagementWindow::RobotManagementWindow() :
     // Glowne okienko
     tabWidgetRobots = new QTabWidget ( this ); 
     tabWidgetRobots->setObjectName ( "tabWidgetRobots" );
-    tabWidgetRobots->setGeometry ( QRect( QPoint(10, 10), QSize(330, 240)) );
+    tabWidgetRobots->setGeometry ( QRect( QPoint(0, 0), QSize(300, 180)) );
     tabWidgetRobots->setTabShape ( QTabWidget::Triangular );
-   
-    // Tymczasowe przyciski -- TODO usunac
-    pushButtonUsun = new QPushButton ( this );
-    pushButtonUsun->setObjectName ( "pushButtonUsun" );
-    pushButtonUsun->setGeometry( QRect( QPoint(30, 0), QSize(30, 10)) );
 
     // Ustaw rozmiar
     //this->adjustSize();
-    this->setGeometry(QRect( QPoint(0, 0), QSize(350, 260)) );
+    int width = 300;
+    int height = 150;
+    this->setGeometry(QRect( QPoint(0, 0), QSize(width, height)) );
+    QRect desktopRect = QApplication::desktop()->availableGeometry(this);
+    QPoint center = desktopRect.center();
+    move(center.x()-width*0.5, center.y()-height*0.5);
     
     // Sloty
     QMetaObject::connectSlotsByName ( this );
 }
 
+// TODO Zostawione tylko jako wzor do implementacji usuwania zakladki, do usuniecia w przyszlosci.
+/*
 void RobotManagementWindow::on_pushButtonUsun_clicked() {
-    // TODO usunac przycisk
     tabRobot = tabRobots.back();
     tabRobots.pop_back();
     tabWidgetRobots->removeTab ( tabWidgetRobots->indexOf ( tabRobot ) );
     tabWidgetRobots->setCurrentIndex ( --robots_counter );
     cout << robots_counter << endl;
 }
+*/
 
 void RobotManagementWindow::addNewTab(string tab_name) {
     tabRobot = new RobotManagementTab(tab_name);

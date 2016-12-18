@@ -80,6 +80,27 @@ void Received(const boost::shared_ptr<const msgs::Int> &msg)
         }   
         break;
       }
+      case 201:
+      {
+          // TODO
+         /* Wyrzuca blad i przerywa symulacjae :(
+          * terminate called after throwing an instance of 
+          * 'boost::exception_detail::clone_impl<boost::exception_detail::error_info_injector<boost::lock_error> >' 
+          * what():  boost: mutex lock failed in pthread_mutex_lock: Invalid argument
+          * Aborted (core dumped)
+         physics::Model_V modelList(world->GetModels());
+         for (physics::Model_V::iterator it = modelList.begin(); it != modelList.end(); ++it)
+         {
+            if ((*it)->GetName() == "pioneer_1")
+            {
+               cout << (*it)->GetName() << endl;
+               msgs::Request *MyMsg = msgs::CreateRequest("entity_delete", (*it)->GetName());
+               this->publisher->Publish(*MyMsg);
+            }
+         }
+         */
+         break;
+      }
      case 99:
          physics::Model_V modelList(world->GetModels());
          // Usuń wszystko oprócz ground_plane
