@@ -1,37 +1,34 @@
 # Projekt przejściowy
 
 ## Najnowsze zmiany
-**UWAGA!** Zmiana nazwy katalogu ze źródłami na **src** oraz zmiana nazw kilku plików *.cc i *.hh oraz pluginów!
+Dodano wczytywanie sali z poziomu okna konfiguracji świata.
 
-Plik **gui.ini** nie powinien być edytowany, ponieważ chcemy żeby nakładka uruchamiała sie tylko dla naszego pliku world. Dlatego plik usunięto z repozytorium, a jego zawartość w obrazie powinna pozostać domyślna, czyli:
-```
-[geometry]
-x=0
-y=0
-```
-W związku z powyższym zaktualizowano plik **laboratorium_L15.world**.
+**UWAGA!** Zaktualizowano plik **l15.world**, który teraz nie ładuje domyślnie modeli, dlatego po uruchomieniu Gazebo świat jest pusty (tylko ground_plane i oświetlenie).
 
-Dodano plugin world odpowiadający za zarządzanie obiektami. Zapewniono komunikację typu Publisher-Subscriber między pluginami.
-
-Dodano okno konfiguracji świata i obsługę dodawania oraz usuwania modeli.
+Konfiguracja wybranych pomieszczeń znajduje się tymczasowo w katalogu **world** i ma postać plików tekstowych, w których zapisane są nazwy modeli wraz z ich pozycją i orientacją.
 
 ## Jak zacząć
-Aby zbudować projekt należy wykonać w folderze **src**:
+Aby zbudować projekt należy wykonać w folderze **catkin_ws**:
 ```
-mkdir build
-cd build
-cmake ../
-make
+catkin_make
 ```
-Zbudowane pluginy z rozszerzeniem **.so** należy umieścić w katalogu
+Ścieżkę folderu, w którym znajdują się pluginy z rozszerzeniem **.so** należy dodać do zmiennej środowiskowej **GAZEBO_PLUGIN_PATH**:
 ```
-/root/.gazebo/plugins/
+export GAZEBO_PLUGIN_PATH='/root/catkin_ws/devel/lib/'
 ```
-W przypdaku dodania nowych zasobów lub modyfikacji (np. ikony przycisków) należy dodać je do katalogu
+Najlepiej jest dodać powyższą linię do pliku **.bashrc**.
+
+Uruchamianie gazebo w połączeniu z rosem:
+```
+roslaunch projekt_przejsciowy l15.launch &
+```
+
+## Dodatkowe informacje
+W przypadku dodania nowych zasobów lub modyfikacji istniejących (np. ikony przycisków) należy dodać je do katalogu:
 ```
 /root/.gazebo/res/
 ```
-Modele obiektów Gazebo znajdują się w katalogu
+Modele obiektów Gazebo znajdują się w katalogu:
 ```
 /root/.gazebo/models/
 ```
