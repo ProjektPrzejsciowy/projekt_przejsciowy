@@ -8,6 +8,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <dirent.h>
 
 using namespace std;
 
@@ -58,7 +59,7 @@ namespace gazebo
          }
       }
 
-      void LoadRoom( string room_name )
+      void LoadRoomByName( string room_name )
       {
          DeleteStaticModels();
 
@@ -91,20 +92,40 @@ namespace gazebo
          room_file.close();
       }
 
+      void LoadRoomByIndex( int room_index )
+      {
+         DIR *dir;
+         struct dirent *ent;
+         if ((dir = opendir("/root/catkin_ws/src/projekt_przejsciowy/worlds")) != NULL)
+         {
+            int file_counter = 0;
+            while ((ent = readdir(dir)) != NULL)
+            {
+               string filename(ent->d_name);
+               if (filename.find(".txt") != string::npos)
+               {
+                  if ( file_counter == room_index )
+                  {
+                     ostringstream file;
+                     file << "/root/catkin_ws/src/projekt_przejsciowy/worlds/" << filename;
+                     LoadRoomByName( file.str() );
+                  }
+                  ++file_counter;
+               }
+            }
+            closedir(dir);
+         }
+      }
+
       void Received(const boost::shared_ptr<const msgs::Int> &msg)
       {
+         if ( msg->data() < 20 )
+         {
+            LoadRoomByIndex(msg->data());
+         }
+
          switch (msg->data())
          {
-            case 0:
-            {
-               LoadRoom("/root/catkin_ws/src/projekt_przejsciowy/worlds/salaL15.txt");
-               break;
-            }
-            case 1:
-            {
-               LoadRoom("/root/catkin_ws/src/projekt_przejsciowy/worlds/salaInna.txt");
-               break;
-            }
             case 99:
             {
                DeleteStaticModels();

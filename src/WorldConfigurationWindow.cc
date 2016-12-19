@@ -1,5 +1,6 @@
 #include "WorldConfigurationWindow.hh"
 #include <QPushButton>
+#include <dirent.h>
 
 using namespace std;
 using namespace gazebo;
@@ -10,9 +11,22 @@ WorldConfigurationWindow::WorldConfigurationWindow() : QDialog()
 
    laboratoryList = new QListWidget(this);
    laboratoryList->setGeometry(QRect(QPoint(10, 10),QSize(250, 150)));
-   laboratoryList->addItem("Laboratorium L1.5");
-   laboratoryList->addItem("Laboratorium Inne");
-   laboratoryList->addItem("Print ros topics");
+
+   DIR *dir;
+   struct dirent *ent;
+   if ((dir = opendir("/root/catkin_ws/src/projekt_przejsciowy/worlds")) != NULL)
+   {
+      int file_counter = 0;
+      while ((ent = readdir(dir)) != NULL)
+      {
+         string filename(ent->d_name);
+         if (filename.find(".txt") != string::npos)
+         {
+            laboratoryList->addItem(QString::fromStdString(filename.substr(0, filename.size()-4)));
+         }
+      }
+      closedir(dir);
+   }
     
    robotListToAdd = new QListWidget(this);
    robotListToAdd->setGeometry(QRect(QPoint(270, 10),QSize(200, 150)));
