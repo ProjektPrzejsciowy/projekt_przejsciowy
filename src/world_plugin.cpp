@@ -168,7 +168,7 @@ namespace gazebo
                   robot_name << "pioneer_" << robot_id;
                   model->GetAttribute( "name" )->SetFromString ( robot_name.str() );
                   // Add robot with a new name to the world at a given pose
-                  math::Pose pose(0, 0, 0, 0, 0, 0);
+                  math::Pose pose(robot_id-3.0, 0, 0, 0, 0, 0);
                   model->AddElement("pose")->Set(pose);
                   world->InsertModelSDF(mySDF);
                   file.close();
