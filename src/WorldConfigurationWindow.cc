@@ -55,7 +55,7 @@ WorldConfigurationWindow::WorldConfigurationWindow() : QDialog()
 void WorldConfigurationWindow::OnButtonLoad()
 {
    // Zapisywanie info o wczytanej sali i robotach (do przemyślenia)
-   QString labName = laboratoryList->currentItem()->text();
+   this->labName = laboratoryList->currentItem()->text();
    addedRobots.clear();
    for (int i = 0; i < addedRobotList->count(); ++i)
    {

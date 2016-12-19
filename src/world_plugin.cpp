@@ -42,119 +42,72 @@ namespace gazebo
          }
       }
 
-      void Received(const boost::shared_ptr<const msgs::Int> &msg)
+      void DeleteStaticModels()
       {
-         string sdf_string;
-         ifstream file;
-         ifstream room;
-         string name;
+         string ground("ground_plane");
+         string pioneer("pioneer");
+         physics::Model_V modelList(world->GetModels());
+         for (physics::Model_V::iterator it = modelList.begin(); it != modelList.end(); ++it)
+         {
+            string model_name((*it)->GetName());
+            if (ground.compare(model_name) && (model_name).find(pioneer) == string::npos)
+            {
+               msgs::Request *MyMsg = msgs::CreateRequest("entity_delete", model_name);
+               this->publisher->Publish(*MyMsg);
+            }
+         }
+      }
+
+      void LoadRoom( string room_name )
+      {
+         DeleteStaticModels();
+
+         ifstream room_file, model_file;
+         string sdf_string, name;
          double x, y, z, roll, pitch, yaw;
          math::Pose model_pos;
 
-         string ground("ground_plane");
-         ros::master::V_TopicInfo master_topics;
-         ros::master::getTopics(master_topics);
+         room_file.open(room_name);
+         while ( room_file >> name >> x >> y >> z >> roll >> pitch >> yaw )
+         {
+            ostringstream model_name, model_dir;
+            sdf::SDF mySDF;
+            sdf::ElementPtr element_ptr;
+            model_dir << "/root/.gazebo/models/" << name << "/model.sdf";
+            model_file.open( model_dir.str() );
+            sdf_string.clear();
+            model_file.seekg(0, ios::beg);
+            sdf_string.assign( ( istreambuf_iterator<char>(model_file) ), ( istreambuf_iterator<char>() ) );
+            mySDF.SetFromString(sdf_string);
+            model_name << name << "_" << model_counter;
+            ++model_counter;
+            element_ptr = mySDF.Root()->GetElement("model");
+            element_ptr->GetAttribute("name")->SetFromString( model_name.str() );
+            model_pos.Set(x, y, z, roll, pitch, yaw);
+            element_ptr->AddElement("pose")->Set(model_pos);
+            world->InsertModelSDF(mySDF);
+            model_file.close();
+         }
+         room_file.close();
+      }
 
-         // cout << "Msg number: " << msg->data() << endl;
+      void Received(const boost::shared_ptr<const msgs::Int> &msg)
+      {
          switch (msg->data())
          {
             case 0:
             {
-               physics::Model_V modelList(world->GetModels());
-               // Usuń wszystko oprócz ground_plane
-               for (physics::Model_V::iterator it = modelList.begin(); it != modelList.end(); ++it)
-               {
-                  if (ground.compare((*it)->GetName()))
-                  {
-                     msgs::Request *MyMsg = msgs::CreateRequest("entity_delete", (*it)->GetName());
-                     this->publisher->Publish(*MyMsg);
-                  }
-               }
-               room.open("/root/catkin_ws/src/projekt_przejsciowy/worlds/salaL15.txt");
-               while ( room >> name >> x >> y >> z >> roll >> pitch >> yaw )
-               {
-                  ostringstream model_name, model_dir;
-                  sdf::SDF mySDF2;
-                  sdf::ElementPtr model2;
-                  model_dir.str("");
-                  model_dir << "/root/.gazebo/models/" << name << "/model.sdf";
-                  file.open( model_dir.str() );
-                  sdf_string.clear();
-                  file.seekg(0, ios::beg);
-                  sdf_string.assign( ( istreambuf_iterator<char>(file) ), ( istreambuf_iterator<char>() ) );
-                  mySDF2.SetFromString(sdf_string);
-                  model_name.str("");
-                  model_name << name << "_" << model_counter;
-                  ++model_counter;
-                  model2 = mySDF2.Root()->GetElement("model");
-                  model2->GetAttribute("name")->SetFromString( model_name.str() );
-                  model_pos.Set(x, y, z, roll, pitch, yaw);
-                  model2->AddElement("pose")->Set(model_pos);
-                  world->InsertModelSDF(mySDF2);
-                  file.close();
-               }
-               room.close();
+               LoadRoom("/root/catkin_ws/src/projekt_przejsciowy/worlds/salaL15.txt");
                break;
             }
             case 1:
             {
-               physics::Model_V modelList(world->GetModels());
-               // Usuń wszystko oprócz ground_plane
-               for (physics::Model_V::iterator it = modelList.begin(); it != modelList.end(); ++it)
-               {
-                  if (ground.compare((*it)->GetName()))
-                  {
-                     msgs::Request *MyMsg = msgs::CreateRequest("entity_delete", (*it)->GetName());
-                     this->publisher->Publish(*MyMsg);
-                  }
-               }
-               room.open("/root/catkin_ws/src/projekt_przejsciowy/worlds/salaInna.txt");
-               while ( room >> name >> x >> y >> z >> roll >> pitch >> yaw )
-               {
-                  ostringstream model_name, model_dir;
-                  sdf::SDF mySDF2;
-                  sdf::ElementPtr model2;
-                  model_dir.str("");
-                  model_dir << "/root/.gazebo/models/" << name << "/model.sdf";
-                  file.open( model_dir.str() );
-                  sdf_string.clear();
-                  file.seekg(0, ios::beg);
-                  sdf_string.assign( ( istreambuf_iterator<char>(file) ), ( istreambuf_iterator<char>() ) );
-                  mySDF2.SetFromString(sdf_string);
-                  model_name.str("");
-                  model_name << name << "_" << model_counter;
-                  ++model_counter;
-                  model2 = mySDF2.Root()->GetElement("model");
-                  model2->GetAttribute("name")->SetFromString( model_name.str() );
-                  model_pos.Set(x, y, z, roll, pitch, yaw);
-                  model2->AddElement("pose")->Set(model_pos);
-                  world->InsertModelSDF(mySDF2);
-                  file.close();
-               }
-               room.close();
+               LoadRoom("/root/catkin_ws/src/projekt_przejsciowy/worlds/salaInna.txt");
                break;
             }
-            case 2:
-               ROS_INFO("Hello World!");
-               for ( ros::master::V_TopicInfo::iterator it = master_topics.begin(); it != master_topics.end(); it++ )
-               {
-                  const ros::master::TopicInfo& info = *it;
-                  cout << "topic_" << it - master_topics.begin() << ": " << info.name << endl;
-               }
-               break;
             case 99:
             {
-               physics::Model_V modelList(world->GetModels());
-               // Usuń wszystko oprócz ground_plane
-               for (physics::Model_V::iterator it = modelList.begin(); it != modelList.end(); ++it)
-               {
-                  if (ground.compare((*it)->GetName()))
-                  {
-                     msgs::Request *MyMsg = msgs::CreateRequest("entity_delete", (*it)->GetName());
-                     this->publisher->Publish(*MyMsg);
-                     //cout << (*it)->GetName() << endl;
-                  }
-               }
+               DeleteStaticModels();
                break;
             }
             case 101:case 102:case 103:case 104:case 105:case 106:case 107: // up to 7 robots
@@ -176,6 +129,8 @@ namespace gazebo
                // if there is no sucha a robot, add it
                if ( !already )
                {
+                  ifstream file;
+                  string sdf_string;
                   sdf::SDF mySDF;
                   sdf::ElementPtr model;
                   // Open sdf file and assign its content to a string
@@ -220,6 +175,20 @@ namespace gazebo
                */
                break;
             }
+/*
+            case 1000:
+            {
+               ros::master::V_TopicInfo master_topics;
+               ros::master::getTopics(master_topics);
+               ROS_INFO("Hello World!");
+               for ( ros::master::V_TopicInfo::iterator it = master_topics.begin(); it != master_topics.end(); it++ )
+               {
+                  const ros::master::TopicInfo& info = *it;
+                  cout << "topic_" << it - master_topics.begin() << ": " << info.name << endl;
+               }
+               break;
+            }
+*/
          }
       }
 
@@ -233,6 +202,6 @@ namespace gazebo
 
    };
 
-GZ_REGISTER_WORLD_PLUGIN(WorldPluginProject)
+   GZ_REGISTER_WORLD_PLUGIN(WorldPluginProject)
 }
 
