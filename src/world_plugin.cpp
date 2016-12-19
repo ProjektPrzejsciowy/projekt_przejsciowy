@@ -109,6 +109,7 @@ namespace gazebo
                      ostringstream file;
                      file << "/root/catkin_ws/src/projekt_przejsciowy/worlds/" << filename;
                      LoadRoomByName( file.str() );
+                     break;
                   }
                   ++file_counter;
                }

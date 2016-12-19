@@ -16,7 +16,6 @@ WorldConfigurationWindow::WorldConfigurationWindow() : QDialog()
    struct dirent *ent;
    if ((dir = opendir("/root/catkin_ws/src/projekt_przejsciowy/worlds")) != NULL)
    {
-      int file_counter = 0;
       while ((ent = readdir(dir)) != NULL)
       {
          string filename(ent->d_name);
