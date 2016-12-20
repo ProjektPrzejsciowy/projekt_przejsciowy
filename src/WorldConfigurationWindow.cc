@@ -50,6 +50,7 @@ WorldConfigurationWindow::WorldConfigurationWindow() : QDialog()
 
    QPushButton *buttonDeleteRobot = new QPushButton("Usun",this);
    buttonDeleteRobot->setGeometry(QRect(QPoint(475, 85),QSize(60, 30)));
+   buttonDeleteRobot->setVisible(false);
    connect(buttonDeleteRobot, SIGNAL(clicked()), this, SLOT(OnButtonDeleteRobot()));
 
    pushButtonZatwierdz = new QPushButton("Zatwierdz",this);
