@@ -6,10 +6,12 @@ RobotManagementWindow::RobotManagementWindow() :
     QDialog(), 
     robots_counter(0) {
 
+    this->setWindowFlags(Qt::WindowStaysOnTopHint);
+
     // Glowne okienko
     tabWidgetRobots = new QTabWidget ( this ); 
     tabWidgetRobots->setObjectName ( "tabWidgetRobots" );
-    tabWidgetRobots->setGeometry ( QRect( QPoint(0, 0), QSize(300, 180)) );
+    tabWidgetRobots->setGeometry ( QRect( QPoint(0, 0), QSize(300, 150)) );
     tabWidgetRobots->setTabShape ( QTabWidget::Triangular );
 
     // Ustaw rozmiar
@@ -20,6 +22,8 @@ RobotManagementWindow::RobotManagementWindow() :
     QRect desktopRect = QApplication::desktop()->availableGeometry(this);
     QPoint center = desktopRect.center();
     move(center.x()-width*0.5, center.y()-height*0.5);
+
+    this->setFixedSize(this->size());
     
     // Sloty
     QMetaObject::connectSlotsByName ( this );

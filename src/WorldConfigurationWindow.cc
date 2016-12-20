@@ -13,7 +13,7 @@ WorldConfigurationWindow::WorldConfigurationWindow() : QDialog()
    laboratoryList->setGeometry(QRect(QPoint(10, 10),QSize(250, 150)));
 
    line = new QListWidget(this);
-   line->setGeometry(QRect(QPoint(263, 0),QSize(4, 200)));
+   line->setGeometry(QRect(QPoint(268, 0),QSize(4, 210)));
    
    
    DIR *dir;
@@ -32,13 +32,13 @@ WorldConfigurationWindow::WorldConfigurationWindow() : QDialog()
    }
     
    robotListToAdd = new QListWidget(this);
-   robotListToAdd->setGeometry(QRect(QPoint(270, 10),QSize(200, 150)));
+   robotListToAdd->setGeometry(QRect(QPoint(280, 10),QSize(200, 150)));
    robotListToAdd->addItem("Robot Pionier 1");
    robotListToAdd->addItem("Robot Pionier 2");
    robotListToAdd->addItem("Robot Pionier 3");
 
    addedRobotList = new QListWidget(this);
-   addedRobotList->setGeometry(QRect(QPoint(540, 10),QSize(200, 150)));
+   addedRobotList->setGeometry(QRect(QPoint(550, 10),QSize(200, 150)));
 
    QPushButton *buttonLoad = new QPushButton("Wczytaj",this);
    buttonLoad->setGeometry(QRect(QPoint(10, 170),QSize(120, 30)));
@@ -49,7 +49,7 @@ WorldConfigurationWindow::WorldConfigurationWindow() : QDialog()
    connect(buttonClear, SIGNAL(clicked()), this, SLOT(OnButtonClear()));
 
    QPushButton *buttonAddRobot = new QPushButton("Dodaj",this);
-   buttonAddRobot->setGeometry(QRect(QPoint(475, 55),QSize(60, 30)));
+   buttonAddRobot->setGeometry(QRect(QPoint(485, 65),QSize(60, 30)));
    connect(buttonAddRobot, SIGNAL(clicked()), this, SLOT(OnButtonAddRobot()));
 
    QPushButton *buttonDeleteRobot = new QPushButton("Usun",this);
@@ -58,7 +58,7 @@ WorldConfigurationWindow::WorldConfigurationWindow() : QDialog()
    connect(buttonDeleteRobot, SIGNAL(clicked()), this, SLOT(OnButtonDeleteRobot()));
 
    pushButtonZatwierdz = new QPushButton("Zatwierdz",this);
-   pushButtonZatwierdz->setGeometry(QRect(QPoint(740-120, 170),QSize(120, 30)));
+   pushButtonZatwierdz->setGeometry(QRect(QPoint(630, 170),QSize(120, 30)));
    connect(pushButtonZatwierdz, SIGNAL(clicked()), this, SLOT(OnPushButtonZatwierdz()));
    
    this->adjustSize();

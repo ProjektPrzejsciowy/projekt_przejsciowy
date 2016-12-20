@@ -49,8 +49,8 @@ private:
 public slots:
     void onAddNewRobot(int id);
 
-private slots:
-    void on_pushButtonUsun_clicked();
+// private slots:
+//    void on_pushButtonUsun_clicked();
 
 public:
     int robots_counter;

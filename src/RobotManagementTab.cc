@@ -14,27 +14,27 @@ RobotManagementTab::RobotManagementTab(string topicName) :
     verticalLayoutWidget = new QWidget ( this );
     verticalLayoutWidget->setObjectName ( "verticalLayoutWidget" );
     verticalLayoutWidget->setGeometry ( QRect ( QPoint(20, 20), QSize(150, 90)) );
-    verticalLayout = new QVBoxLayout ( verticalLayoutWidget );
+    verticalLayout = new QVBoxLayout;
     verticalLayout->setSpacing ( 6 );
     verticalLayout->setContentsMargins ( 11, 11, 11, 11 );
     verticalLayout->setObjectName ( "verticalLayout" );
     verticalLayout->setContentsMargins ( 0, 0, 0, 0 );
 
-    lineEditX = new QLineEdit ( verticalLayoutWidget );
+    lineEditX = new QLineEdit;
     lineEditX->setObjectName ( "lineEditX" );
     lineEditX->setAlignment ( Qt::AlignCenter );
     lineEditX->setText ( QString() );
     lineEditX->setPlaceholderText ( "X" );
     verticalLayout->addWidget ( lineEditX );
 
-    lineEditY = new QLineEdit ( verticalLayoutWidget );
+    lineEditY = new QLineEdit;
     lineEditX->setObjectName ( "lineEditY" );
     lineEditY->setAlignment ( Qt::AlignCenter );
     lineEditY->setText ( QString() );
     lineEditY->setPlaceholderText ( "Y" );
     verticalLayout->addWidget ( lineEditY );
 
-    lineEditOrient = new QLineEdit ( verticalLayoutWidget );
+    lineEditOrient = new QLineEdit;
     lineEditOrient->setObjectName ( "lineEditOrient" );
     lineEditOrient->setAlignment ( Qt::AlignCenter );
     lineEditOrient->setText ( QString() );
@@ -44,21 +44,23 @@ RobotManagementTab::RobotManagementTab(string topicName) :
     verticalSpacer = new QSpacerItem ( 20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding );
     verticalLayout->addItem ( verticalSpacer );
 
-    horizontalLayout = new QHBoxLayout ( verticalLayoutWidget );
+    horizontalLayout = new QHBoxLayout;
     horizontalLayout->setSpacing ( 6 );
     horizontalLayout->setObjectName ( "horizontalLayout" );
 
-    pushButtonUstaw = new QPushButton ( verticalLayoutWidget );
+    pushButtonUstaw = new QPushButton;
     pushButtonUstaw->setObjectName ( "pushButtonUstaw" );
     pushButtonUstaw->setText ( "Ustaw" );
     horizontalLayout->addWidget ( pushButtonUstaw );
 
-    pushButtonReset = new QPushButton ( verticalLayoutWidget );
+    pushButtonReset = new QPushButton;
     pushButtonReset->setObjectName ( "pushButtonReset" );
     pushButtonReset->setText ( "Reset" );
     horizontalLayout->addWidget ( pushButtonReset );
 
     verticalLayout->addLayout ( horizontalLayout );
+
+    verticalLayoutWidget->setLayout(verticalLayout);
 
     // Nazwa topicu
     labelTopicName = new QLabel ( this );

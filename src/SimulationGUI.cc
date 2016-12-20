@@ -60,6 +60,7 @@ SimulationGUI::SimulationGUI() : GUIPlugin()
    dialog2->setWindowTitle(tr("Zarzadzanie robotami"));
    dialog3 = new ResultsWindow();
    dialog3->setWindowTitle(tr("Wyniki symulacji"));
+
    // Connect
    connect(dialog1, SIGNAL(addNewRobot(int)), 
            dialog2, SLOT(onAddNewRobot(int)));
