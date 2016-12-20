@@ -141,6 +141,7 @@ void RobotManagementTab::on_pushButtonUstaw_clicked() {
 void RobotManagementTab::on_pushButtonReset_clicked() {
     string topicName = labelTopicName->text().toStdString();   
     string command = "rosservice call /gazebo/set_model_state '{model_state: { model_name: "+ topicName + ", pose: { position: { x: 0, y: 0 ,z: 0 }, orientation: {x: 0, y: 0, z: 0, w: 1 } }, twist: { linear: {x: 0.0 , y: 0 ,z: 0 } , angular: { x: 0.0 , y: 0 , z: 0.0 } } , reference_frame: world } }'";
+    //string command = "rosservice call /gazebo/delete_model '{ model_name: " + topicName + " }'";
     system(command.c_str());
 }
 

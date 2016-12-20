@@ -2,6 +2,9 @@
 #define _WORLD_CONFIGURATION_WINDOW_HH_
 
 #include <QDialog>
+#include <QWidget>
+#include <QLine>
+#include <QRect>
 #include <QListWidget>
 #include <QString>
 #include <QVector>
@@ -22,6 +25,7 @@ class WorldConfigurationWindow : public QDialog
       QListWidget *addedRobotList;
       QString labName;
       QVector<QString> addedRobots;
+      QListWidget *line; 
 
       QPushButton *pushButtonZatwierdz;
    

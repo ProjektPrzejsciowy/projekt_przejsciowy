@@ -12,6 +12,10 @@ WorldConfigurationWindow::WorldConfigurationWindow() : QDialog()
    laboratoryList = new QListWidget(this);
    laboratoryList->setGeometry(QRect(QPoint(10, 10),QSize(250, 150)));
 
+   line = new QListWidget(this);
+   line->setGeometry(QRect(QPoint(263, 0),QSize(4, 200)));
+   
+   
    DIR *dir;
    struct dirent *ent;
    if ((dir = opendir("/root/catkin_ws/src/projekt_przejsciowy/worlds")) != NULL)
