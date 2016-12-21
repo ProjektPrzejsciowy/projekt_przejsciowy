@@ -9,6 +9,7 @@
 #include <sstream>
 #include <vector>
 #include <dirent.h>
+#include "nav_msgs/Odometry.h"
 
 using namespace std;
 
@@ -118,6 +119,13 @@ namespace gazebo
          }
       }
 
+      void PoseCallback(const nav_msgs::Odometry& msg)
+      {
+         cout << " X: " << msg.pose.pose.position.x << endl;
+         cout << " Y: " << msg.pose.pose.position.y << endl;
+         cout << " Z: " << msg.pose.pose.position.z << endl;
+      }
+
       void Received(const boost::shared_ptr<const msgs::Int> &msg)
       {
          if ( msg->data() < 20 )
@@ -127,6 +135,11 @@ namespace gazebo
 
          switch (msg->data())
          {
+            case 50:
+            {
+               this->rosnode = new ros::NodeHandle();
+               rossub = rosnode->subscribe("/pioneer_1/RosAria/pose", 10, &WorldPluginProject::PoseCallback, this) ;
+            }
             case 99:
             {
                DeleteStaticModels();
@@ -221,6 +234,8 @@ namespace gazebo
       transport::PublisherPtr publisher;
       physics::WorldPtr world;
       int model_counter;
+      ros::Subscriber rossub;
+      ros::NodeHandle* rosnode;
 
    };
 

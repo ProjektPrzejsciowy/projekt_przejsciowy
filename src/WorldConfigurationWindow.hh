@@ -30,6 +30,7 @@ class WorldConfigurationWindow : public QDialog
       QPushButton *pushButtonZatwierdz;
    
    private slots:
+      void OnButtonTmp();
       void OnButtonLoad();
       void OnButtonClear();
       void OnButtonAddRobot();

@@ -60,6 +60,10 @@ WorldConfigurationWindow::WorldConfigurationWindow() : QDialog()
    pushButtonZatwierdz = new QPushButton("Zatwierdz",this);
    pushButtonZatwierdz->setGeometry(QRect(QPoint(630, 170),QSize(120, 30)));
    connect(pushButtonZatwierdz, SIGNAL(clicked()), this, SLOT(OnPushButtonZatwierdz()));
+
+   QPushButton *buttonTmp = new QPushButton("pioneer_1 pose w konsoli",this);
+   buttonTmp->setGeometry(QRect(QPoint(280, 170),QSize(180, 30)));
+   connect(buttonTmp, SIGNAL(clicked()), this, SLOT(OnButtonTmp()));
    
    this->adjustSize();
    this->setFixedSize(this->size());
@@ -116,5 +120,12 @@ void WorldConfigurationWindow::OnPushButtonZatwierdz()
         this->publisher->Publish(msg); 
         emit addNewRobot(robot_id);
     }
+}
+
+void WorldConfigurationWindow::OnButtonTmp()
+{
+   msgs::Int MyMsg;
+   MyMsg.set_data(50);
+   this->publisher->Publish(MyMsg);
 }
 
