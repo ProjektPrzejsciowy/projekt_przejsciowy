@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <unistd.h>
 
 #include <QDialog>
 #include <QListWidget>
@@ -48,6 +49,7 @@ private:
 
 public slots:
     void onAddNewRobot(int id);
+    void onHideARobot(int id);
 
 // private slots:
 //    void on_pushButtonUsun_clicked();

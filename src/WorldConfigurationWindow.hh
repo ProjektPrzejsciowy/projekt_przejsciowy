@@ -39,6 +39,7 @@ class WorldConfigurationWindow : public QDialog
       
    signals:
       void addNewRobot(int id);
+      void hideARobot(int id);
 
    private:
       gazebo::transport::NodePtr node;

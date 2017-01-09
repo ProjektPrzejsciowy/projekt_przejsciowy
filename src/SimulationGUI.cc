@@ -64,6 +64,8 @@ SimulationGUI::SimulationGUI() : GUIPlugin()
    // Connect
    connect(dialog1, SIGNAL(addNewRobot(int)), 
            dialog2, SLOT(onAddNewRobot(int)));
+   connect(dialog1, SIGNAL(hideARobot(int)), 
+           dialog2, SLOT(onHideARobot(int)));
 }
 
 SimulationGUI::~SimulationGUI()

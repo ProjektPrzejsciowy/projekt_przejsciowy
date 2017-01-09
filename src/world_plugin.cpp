@@ -158,10 +158,16 @@ namespace gazebo
                   if ( robot_name.str().compare((*it)->GetName()) == 0 )
                   {
                      already = true;
+                     ostringstream topicName;
+                     topicName << "pioneer_" << robot_id;
+                     float orient = 0;
+                     float w = cos(orient/2), z = sin(orient/2);
+                     string command = "rosservice call /gazebo/set_model_state '{model_state: { model_name: " + topicName.str() + ", pose: { position: { x: " + to_string(robot_id-3.0) + ", y: " + to_string(0) + ",z: 0 }, orientation: {x: 0, y: 0, z: "+ to_string(z) + ", w: " + to_string(w) +" } }, twist: { linear: {x: 0.0 , y: 0 ,z: 0 } , angular: { x: 0.0 , y: 0 , z: 0.0 } } , reference_frame: world } }'";
+                     system(command.c_str());
                      break;
                   }
                } 
-               // if there is no sucha a robot, add it
+               // if there is no such a robot, add it
                if ( !already )
                {
                   ifstream file;
