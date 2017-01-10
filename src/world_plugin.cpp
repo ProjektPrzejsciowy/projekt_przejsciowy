@@ -61,14 +61,20 @@ namespace gazebo
 
       void SaveFile(const vector<coordinates>& robotSimulationPose)
       {
-	 ofstream file("/root/catkin_ws/simulationData/robot_pose.csv");
+	 ofstream file("/root/simulationData/robot_pose.csv");
 	 if(file.good())
 	 {
 	   for(const auto& r : robotSimulationPose)
 		file << r.x << "," << r.y << "," << r.z << "," << r.t << endl;
 
 	   file.close();
+
+	   cout << "Zapisano plik!" << endl;
 	 }
+	else
+	{
+		cout << "Błąd zapisu pliku!" << endl;
+	}
 	 
       }
 
@@ -160,8 +166,10 @@ namespace gazebo
 	 }
 	 if(print_counter == 2)
 	 {
-		SaveFile(robotSimulationPose);
+		if(timeCounter > 0)
+			SaveFile(robotSimulationPose);
 		print_counter = 0;
+		timeCounter = 0;
 	 }
 	 usleep(stepTime*second);
 	 
@@ -176,12 +184,18 @@ namespace gazebo
 
          switch (msg->data())
          {
-            case 50:
+            case 501:
             {
                this->rosnode = new ros::NodeHandle();
-		++print_counter;
-               rossub = rosnode->subscribe("/pioneer_1/RosAria/pose", 10, &WorldPluginProject::PoseCallback, this) ;
+               rossub = rosnode->subscribe("/pioneer_1/RosAria/pose", 10, &WorldPluginProject::PoseCallback, this);
+		print_counter = 1;		
+		break;
             }
+	    case 511:
+            {
+		print_counter = 2;
+		break;
+	    }
             case 99:
             {
                DeleteStaticModels();
