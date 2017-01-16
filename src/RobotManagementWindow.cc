@@ -51,17 +51,5 @@ void RobotManagementWindow::onAddNewRobot(int id) {
 
 void RobotManagementWindow::onHideARobot(int id) {
     tabWidgetRobots->setTabEnabled(id-1, false);
-    
-    float orient = 0;
-    float w = cos(orient/2), z = sin(orient/2);
-    float y = 3.5 + id*0.5;
-    float x = 4;
-    
-    ostringstream topicName;
-    topicName << "pioneer_" << id;
 
-    string command = "rosservice call /gazebo/set_model_state '{model_state: { model_name: " + topicName.str() + ", pose: { position: { x: " + to_string(x) + ", y: " + to_string(y) + ",z: 0 }, orientation: {x: 0, y: 0, z: "+ to_string(z) + ", w: " + to_string(w) +" } }, twist: { linear: {x: 0.0 , y: 0 ,z: 0 } , angular: { x: 0.0 , y: 0 , z: 0.0 } } , reference_frame: world } }'";
-    system(command.c_str());
-    unsigned int microseconds = 1000000;
-    usleep(microseconds);
 }

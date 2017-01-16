@@ -164,6 +164,8 @@ namespace gazebo
                      float w = cos(orient/2), z = sin(orient/2);
                      string command = "rosservice call /gazebo/set_model_state '{model_state: { model_name: " + topicName.str() + ", pose: { position: { x: " + to_string(robot_id-3.0) + ", y: " + to_string(0) + ",z: 0 }, orientation: {x: 0, y: 0, z: "+ to_string(z) + ", w: " + to_string(w) +" } }, twist: { linear: {x: 0.0 , y: 0 ,z: 0 } , angular: { x: 0.0 , y: 0 , z: 0.0 } } , reference_frame: world } }'";
                      system(command.c_str());
+                     //unsigned int microseconds = 4e6; // 2s
+                     //usleep(microseconds);
                      break;
                   }
                } 
@@ -195,25 +197,28 @@ namespace gazebo
                }   
                break;
             }
-            case 201:
+            case 201: case 202: case 203: case 204: case 205: case 206: case 207:
             {
-               // TODO
-               /* Wyrzuca blad i przerywa symulacjae :(
-                * terminate called after throwing an instance of 
-                * 'boost::exception_detail::clone_impl<boost::exception_detail::error_info_injector<boost::lock_error> >' 
-                * what():  boost: mutex lock failed in pthread_mutex_lock: Invalid argument
-                * Aborted (core dumped)
+                int robot_id = msg->data() % 200;
+               ostringstream robot_name;
+               robot_name << "pioneer_" << robot_id;
+               //bool already = false;
+               // find if robot is already in the world
                physics::Model_V modelList(world->GetModels());
-               for (physics::Model_V::iterator it = modelList.begin(); it != modelList.end(); ++it)
+               for ( physics::Model_V::iterator it = modelList.begin(); it != modelList.end(); ++it )
                {
-                  if ((*it)->GetName() == "pioneer_1")
+                  if ( robot_name.str().compare((*it)->GetName()) == 0 )
                   {
-                     cout << (*it)->GetName() << endl;
-                     msgs::Request *MyMsg = msgs::CreateRequest("entity_delete", (*it)->GetName());
-                     this->publisher->Publish(*MyMsg);
+                    float orient = 0;
+                    float w = cos(orient/2), z = sin(orient/2);
+                    float y = 3.5 + robot_id*0.5;
+                    float x = 4;
+                     ostringstream topicName;
+                     topicName << "pioneer_" << robot_id;
+                     string command = "rosservice call /gazebo/set_model_state '{model_state: { model_name: " + topicName.str() + ", pose: { position: { x: " + to_string(x) + ", y: " + to_string(y) + ",z: 0 }, orientation: {x: 0, y: 0, z: "+ to_string(z) + ", w: " + to_string(w) +" } }, twist: { linear: {x: 0.0 , y: 0 ,z: 0 } , angular: { x: 0.0 , y: 0 , z: 0.0 } } , reference_frame: world } }'";
+                     system(command.c_str());
                   }
-               }
-               */
+               } 
                break;
             }
 /*
