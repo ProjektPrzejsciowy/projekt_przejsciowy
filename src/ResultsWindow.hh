@@ -22,11 +22,8 @@ class ResultsWindow : public QDialog
       QListWidget *parametersList;
 
    private slots:
-	void realtimeDataSlot();
-	void OnButtonLoad();
-	void OnButtonClear();
-	void OnButtonAddRobot();
-	void OnButtonDeleteRobot();
+	void OnButtonPoseReg1();
+	void OnButtonSave1();
       
    private:
       QTimer dataTimer;

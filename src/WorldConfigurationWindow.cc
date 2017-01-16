@@ -149,10 +149,4 @@ void WorldConfigurationWindow::OnPushButtonZatwierdz()
     */
 }
 
-void WorldConfigurationWindow::OnButtonTmp()
-{
-   msgs::Int MyMsg;
-   MyMsg.set_data(50);
-   this->publisher->Publish(MyMsg);
-}
 

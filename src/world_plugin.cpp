@@ -4,11 +4,13 @@
    #include <gazebo/physics/physics.hh>
 #endif
 #include <ros/ros.h>
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <vector>
 #include <dirent.h>
+#include <unistd.h>
 #include "nav_msgs/Odometry.h"
 
 using namespace std;
@@ -24,6 +26,19 @@ namespace gazebo
       {
          model_counter = 0;
       }
+
+      struct coordinates
+      {
+	double x;
+	double y;
+	double z;
+	double t;
+      };
+     
+      vector<coordinates> robotSimulationPose;
+      const double stepTime = 0.2;
+      double timeCounter = 0;
+      int print_counter = 0;
 
       void Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
       {
@@ -42,6 +57,25 @@ namespace gazebo
                << "Load the Gazebo system plugin 'libgazebo_ros_api_plugin.so' in the gazebo_ros package)");
             return;
          }
+      }
+
+      void SaveFile(const vector<coordinates>& robotSimulationPose)
+      {
+	 ofstream file("/root/simulationData/robot_pose.csv");
+	 if(file.good())
+	 {
+	   for(const auto& r : robotSimulationPose)
+		file << r.x << "," << r.y << "," << r.z << "," << r.t << endl;
+
+	   file.close();
+
+	   cout << "Zapisano plik!" << endl;
+	 }
+	else
+	{
+		cout << "Błąd zapisu pliku!" << endl;
+	}
+	 
       }
 
       void DeleteStaticModels()
@@ -121,9 +155,24 @@ namespace gazebo
 
       void PoseCallback(const nav_msgs::Odometry& msg)
       {
-         cout << " X: " << msg.pose.pose.position.x << endl;
-         cout << " Y: " << msg.pose.pose.position.y << endl;
-         cout << " Z: " << msg.pose.pose.position.z << endl;
+         int second = 1000000;
+	 if(print_counter == 1)
+	 {
+         robotSimulationPose.push_back(coordinates{msg.pose.pose.position.x,
+						msg.pose.pose.position.y,
+						msg.pose.pose.position.z,
+	 	 				timeCounter});
+	 timeCounter += stepTime;
+	 }
+	 if(print_counter == 2)
+	 {
+		if(timeCounter > 0)
+			SaveFile(robotSimulationPose);
+		print_counter = 0;
+		timeCounter = 0;
+	 }
+	 usleep(stepTime*second);
+	 
       }
 
       void Received(const boost::shared_ptr<const msgs::Int> &msg)
@@ -135,11 +184,18 @@ namespace gazebo
 
          switch (msg->data())
          {
-            case 50:
+            case 501:
             {
                this->rosnode = new ros::NodeHandle();
-               rossub = rosnode->subscribe("/pioneer_1/RosAria/pose", 10, &WorldPluginProject::PoseCallback, this) ;
+               rossub = rosnode->subscribe("/pioneer_1/RosAria/pose", 10, &WorldPluginProject::PoseCallback, this);
+		print_counter = 1;		
+		break;
             }
+	    case 511:
+            {
+		print_counter = 2;
+		break;
+	    }
             case 99:
             {
                DeleteStaticModels();
