@@ -21,14 +21,19 @@ class ResultsWindow : public QDialog
       QCustomPlot *plot;
       QListWidget *parametersList;
 
+
    private slots:
 	void OnButtonPoseReg1();
 	void OnButtonSave1();
-      
+	
+            
    private:
+      void Received(const boost::shared_ptr<const gazebo::msgs::Quaternion> &msg);
       QTimer dataTimer;
       gazebo::transport::NodePtr node;
       gazebo::transport::PublisherPtr publisher;
+      
+      gazebo::transport::SubscriberPtr subscriber;
 };
 
 #endif

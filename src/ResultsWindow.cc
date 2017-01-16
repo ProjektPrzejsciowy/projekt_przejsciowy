@@ -28,8 +28,17 @@ ResultsWindow::ResultsWindow() : QDialog()
 	this->node = transport::NodePtr(new transport::Node());
 	this->node->Init();
 	this->publisher = this->node->Advertise<msgs::Int>("~/buttons");
+
+	this->subscriber = node->Subscribe("~/robotPose", &ResultsWindow::Received, this);
+	
+	
+
 }
 
+void ResultsWindow::Received(const boost::shared_ptr<const msgs::Quaternion> &msg)
+      {
+	cout<<"X: "<<msg->x()<<" Y: "<<msg->y()<<" Z: "<<msg->x()<<" time: "<<msg->w()<<endl;
+}
 void ResultsWindow::OnButtonPoseReg1()
 {
 	msgs::Int MyMsg;

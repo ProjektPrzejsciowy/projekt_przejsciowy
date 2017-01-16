@@ -25,8 +25,9 @@ namespace gazebo
       WorldPluginProject() : WorldPlugin()
       {
          model_counter = 0;
+	
       }
-
+	gazebo::transport::PublisherPtr publisher2;
       struct coordinates
       {
 	double x;
@@ -46,10 +47,12 @@ namespace gazebo
    
          // world->SetPaused(true);
    
+
          this->node = transport::NodePtr(new transport::Node());
          this->node->Init();
          this->subscriber = node->Subscribe("~/buttons", &WorldPluginProject::Received, this);
          this->publisher = this->node->Advertise<msgs::Request>("~/request");
+         this->publisher2 = this->node->Advertise<msgs::Quaternion>("~/robotPose");
          // Make sure the ROS node for Gazebo has already been initialized                                                                                    
          if ( !ros::isInitialized() )
          {
@@ -61,6 +64,10 @@ namespace gazebo
 
       void SaveFile(const vector<coordinates>& robotSimulationPose)
       {
+	
+//	msgs::Int MyMsg;
+//	MyMsg.set_data(555);
+//               this->publisher2->Publish(MyMsg);
 	 ofstream file("/root/simulationData/robot_pose.csv");
 	 if(file.good())
 	 {
@@ -155,22 +162,33 @@ namespace gazebo
 
       void PoseCallback(const nav_msgs::Odometry& msg)
       {
+	msgs::Quaternion MyMsg;
+	
+
+
          int second = 1000000;
 	 if(print_counter == 1)
 	 {
-         robotSimulationPose.push_back(coordinates{msg.pose.pose.position.x,
+
+	 	MyMsg.set_x(msg.pose.pose.position.x);
+	    	MyMsg.set_y(msg.pose.pose.position.y);
+	   	MyMsg.set_z(msg.pose.pose.position.z);
+		MyMsg.set_w(timeCounter);
+   		this->publisher2->Publish(MyMsg);
+	        robotSimulationPose.push_back(coordinates{msg.pose.pose.position.x,
 						msg.pose.pose.position.y,
 						msg.pose.pose.position.z,
 	 	 				timeCounter});
-	 timeCounter += stepTime;
+		timeCounter += stepTime;
 	 }
-	 if(print_counter == 2)
+	 /*if(print_counter == 2)
 	 {
 		if(timeCounter > 0)
 			SaveFile(robotSimulationPose);
 		print_counter = 0;
 		timeCounter = 0;
-	 }
+	 }*/
+	
 	 usleep(stepTime*second);
 	 
       }
@@ -186,13 +204,14 @@ namespace gazebo
          {
             case 501:
             {
+		print_counter = 1;		
                this->rosnode = new ros::NodeHandle();
                rossub = rosnode->subscribe("/pioneer_1/RosAria/pose", 10, &WorldPluginProject::PoseCallback, this);
-		print_counter = 1;		
 		break;
             }
 	    case 511:
             {
+
 		print_counter = 2;
 		break;
 	    }
