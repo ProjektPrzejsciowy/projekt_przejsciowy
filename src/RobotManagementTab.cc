@@ -92,15 +92,6 @@ void RobotManagementTab::on_pushButtonStartStop_clicked() {
         state = Stop;
         pushButtonStartStop->setIcon ( icon_red );
         pushButtonStartStop->setIconSize ( QSize ( 40, 40 ) );
-        
-        // TODO ponizsze przeniesc do WorldConfiguration ->przycisk Zatwierdz
-        gazebo::msgs::Int msg;
-        string topicName = labelTopicName->text().toStdString(); 
-        int robot_id = topicName[topicName.length()-1] - '0';
-        cout << robot_id << endl;
-        msg.set_data( 200 + robot_id );  // switch in world_plugin.cc 
-        this->publisher->Publish(msg); 
-        //emit deleteRobot(robot_id); TODO
     }
     else {
         state = Start;
@@ -143,7 +134,6 @@ void RobotManagementTab::on_pushButtonUstaw_clicked() {
 void RobotManagementTab::on_pushButtonReset_clicked() {
     string topicName = labelTopicName->text().toStdString();   
     string command = "rosservice call /gazebo/set_model_state '{model_state: { model_name: "+ topicName + ", pose: { position: { x: 0, y: 0 ,z: 0 }, orientation: {x: 0, y: 0, z: 0, w: 1 } }, twist: { linear: {x: 0.0 , y: 0 ,z: 0 } , angular: { x: 0.0 , y: 0 , z: 0.0 } } , reference_frame: world } }'";
-    //string command = "rosservice call /gazebo/delete_model '{ model_name: " + topicName + " }'";
     system(command.c_str());
 }
 

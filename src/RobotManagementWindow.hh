@@ -46,13 +46,11 @@ private:
     QTabWidget *tabWidgetRobots;
     std::vector < QWidget * > tabRobots;
     QWidget *tabRobot;    
+    //bool tabAddedRobots[7];
 
 public slots:
     void onAddNewRobot(int id);
     void onHideARobot(int id);
-
-// private slots:
-//    void on_pushButtonUsun_clicked();
 
 public:
     int robots_counter;
