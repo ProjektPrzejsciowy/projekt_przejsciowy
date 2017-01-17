@@ -28,6 +28,7 @@ class ResultsWindow : public QDialog
    private slots:
 	void OnButtonPoseReg1();
 	void OnButtonSave1();
+	void OnButtonStop();
 	
 	void realtimeDataSlot();
 	

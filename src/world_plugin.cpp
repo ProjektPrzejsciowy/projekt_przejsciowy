@@ -68,7 +68,7 @@ namespace gazebo
 //	msgs::Int MyMsg;
 //	MyMsg.set_data(555);
 //               this->publisher2->Publish(MyMsg);
-	 ofstream file("/root/simulationData/robot_pose.csv");
+	 ofstream file("./robot_pose.csv");
 	 if(file.good())
 	 {
 	   for(const auto& r : robotSimulationPose)
