@@ -25,6 +25,7 @@ RobotManagementTab::RobotManagementTab(string topicName) :
     lineEditX->setAlignment ( Qt::AlignCenter );
     lineEditX->setText ( QString() );
     lineEditX->setPlaceholderText ( "X" );
+	lineEditX->setStyleSheet("background-color : #32CD32; color : #006400;");
     verticalLayout->addWidget ( lineEditX );
 
     lineEditY = new QLineEdit;
@@ -32,6 +33,7 @@ RobotManagementTab::RobotManagementTab(string topicName) :
     lineEditY->setAlignment ( Qt::AlignCenter );
     lineEditY->setText ( QString() );
     lineEditY->setPlaceholderText ( "Y" );
+	lineEditY->setStyleSheet("background-color : #32CD32; color : #006400;");
     verticalLayout->addWidget ( lineEditY );
 
     lineEditOrient = new QLineEdit;
@@ -39,6 +41,7 @@ RobotManagementTab::RobotManagementTab(string topicName) :
     lineEditOrient->setAlignment ( Qt::AlignCenter );
     lineEditOrient->setText ( QString() );
     lineEditOrient->setPlaceholderText ( "Orientacja" );
+	lineEditOrient->setStyleSheet("background-color : #32CD32; color : #006400;");
     verticalLayout->addWidget ( lineEditOrient );
 
     verticalSpacer = new QSpacerItem ( 20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding );
@@ -102,27 +105,35 @@ void RobotManagementTab::on_pushButtonStartStop_clicked() {
 
 void RobotManagementTab::on_pushButtonUstaw_clicked() {
     bool correct;
+	bool wrong = false;
+	lineEditX->setStyleSheet("background-color : #32CD32; color : #006400;");
+	lineEditY->setStyleSheet("background-color : #32CD32; color : #006400;");
+	lineEditOrient->setStyleSheet("background-color : #32CD32; color : #006400;");
 
     lineEditX->text().toFloat(&correct);
     if(!correct)
     {
 	ROS_INFO("Wrong X-coordinate!!");
-	return;
+	lineEditX->setStyleSheet("background-color : #FF6347; color : #800000;");
+	wrong = true;
     }
 
     lineEditY->text().toFloat(&correct);
     if(!correct)
     {
 	ROS_INFO("Wrong Y-coordinate!!");
-	return;
+	lineEditY->setStyleSheet("background-color : #FF6347; color : #800000;");
+	wrong = true;
     }      
 
     float orient = lineEditOrient->text().toFloat(&correct);
     if(!correct)
     {
 	ROS_INFO("Wrong Orientation!!");
-	return;
+	lineEditOrient->setStyleSheet("background-color : #FF6347; color : #800000;");
+	wrong = true;
     }
+	if(wrong) return;
 
     float w = cos(orient/2), z = sin(orient/2);
     string topicName = labelTopicName->text().toStdString();   
