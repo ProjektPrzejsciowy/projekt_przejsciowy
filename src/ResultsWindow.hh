@@ -19,12 +19,17 @@ class ResultsWindow : public QDialog
    public:
       ResultsWindow();
       QCustomPlot *plot;
+      QCPCurve *Spiral1;
       QListWidget *parametersList;
+	QVector<double> x1; /**< vector przechowujący współrzędne x trasy */
+	QVector<double> y1; /**< vector przechowujący współrzędne y trasy */
 
 
    private slots:
 	void OnButtonPoseReg1();
 	void OnButtonSave1();
+	
+	void realtimeDataSlot();
 	
             
    private:
