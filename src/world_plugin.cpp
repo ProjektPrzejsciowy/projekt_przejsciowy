@@ -27,7 +27,7 @@ namespace gazebo
          model_counter = 0;
 	
       }
-	gazebo::transport::PublisherPtr publisher2;
+
       struct coordinates
       {
 	double x;
@@ -35,11 +35,32 @@ namespace gazebo
 	double z;
 	double t;
       };
+
+      struct coordinates2
+      {
+	double x_1;
+	double y_1;
+	double z_1;
+	double t_1;
+	double x_2;
+	double y_2;
+	double z_2;
+	double t_2;
+	double x_3;
+	double y_3;
+	double z_3;
+	double t_3;
+      };
      
       vector<coordinates> robotSimulationPose;
       const double stepTime = 0.2;
       double timeCounter = 0;
-      int print_counter = 0;
+      int print_counter_1 = 0;
+      int print_counter_2 = 0;
+      int print_counter_3 = 0;
+      bool pionier_1_subscriber_not_induced = true;
+      bool pionier_2_subscriber_not_induced = true;
+      bool pionier_3_subscriber_not_induced = true;
 
       void Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
       {
@@ -52,7 +73,9 @@ namespace gazebo
          this->node->Init();
          this->subscriber = node->Subscribe("~/buttons", &WorldPluginProject::Received, this);
          this->publisher = this->node->Advertise<msgs::Request>("~/request");
-         this->publisher2 = this->node->Advertise<msgs::Quaternion>("~/robotPose");
+         this->publisherRobotPose = this->node->Advertise<msgs::Quaternion>("~/robotPose");
+         this->publisherRobotPose2 = this->node->Advertise<msgs::Quaternion>("~/robot2Pose");
+         this->publisherRobotPose3 = this->node->Advertise<msgs::Quaternion>("~/robot3Pose");
          // Make sure the ROS node for Gazebo has already been initialized                                                                                    
          if ( !ros::isInitialized() )
          {
@@ -71,9 +94,11 @@ namespace gazebo
 	 ofstream file("./robot_pose.csv");
 	 if(file.good())
 	 {
+	   file<<"#Pionier1 X:,Pionier1 Y:,Pionier1 Z:,Pionier2 X:,Pionier2 Y:,Pionier2 Z:,Pionier3 X:,Pionier3 Y:,Pionier3 Z:,time:"<<endl;
 	   for(const auto& r : robotSimulationPose)
-		file << r.x << "," << r.y << "," << r.z << "," << r.t << endl;
-
+		{
+		  file << r.x << "," << r.y << "," << r.z << "," << r.t << endl;
+		}
 	   file.close();
 
 	   cout << "Zapisano plik!" << endl;
@@ -160,6 +185,86 @@ namespace gazebo
          }
       }
 
+      void PoseCallbackRobot1(const nav_msgs::Odometry& msg)
+      {
+	int second = 1000000;
+	 if(print_counter_1 == 1)
+	 {
+
+	 	cout<<"R1"<<endl;
+   		this->publisherRobotPose->Publish(ReturnRobotPose(msg));
+	        
+		timeCounter += stepTime;
+	 }
+	 /*if(print_counter == 2)
+	 {
+		if(timeCounter > 0)
+			SaveFile(robotSimulationPose);
+		print_counter = 0;
+		timeCounter = 0;
+	 }*/
+	
+	 usleep(stepTime*second);
+      }
+
+      void PoseCallbackRobot2(const nav_msgs::Odometry& msg)
+      {
+	int second = 1000000;
+	 if(print_counter_2 == 1)
+	 {
+
+	 	cout<<"R2"<<endl;
+   		this->publisherRobotPose2->Publish(ReturnRobotPose(msg));
+	        
+		timeCounter += stepTime;
+	 }
+	 /*if(print_counter == 2)
+	 {
+		if(timeCounter > 0)
+			SaveFile(robotSimulationPose);
+		print_counter = 0;
+		timeCounter = 0;
+	 }*/
+	
+	 usleep(2*stepTime*second);
+      }
+
+      void PoseCallbackRobot3(const nav_msgs::Odometry& msg)
+      {
+	int second = 1000000;
+	 if(print_counter_3 == 1)
+	 {
+
+	 	cout<<"R3"<<endl;
+   		this->publisherRobotPose3->Publish(ReturnRobotPose(msg));
+	        
+		timeCounter += stepTime;
+	 }
+	 /*if(print_counter == 2)
+	 {
+		if(timeCounter > 0)
+			SaveFile(robotSimulationPose);
+		print_counter = 0;
+		timeCounter = 0;
+	 }*/
+	
+	 usleep(stepTime*second);
+      }
+
+
+      msgs::Quaternion ReturnRobotPose(const nav_msgs::Odometry& msg)
+      {
+         msgs::Quaternion MyMsg;
+	
+	 MyMsg.set_x(msg.pose.pose.position.x);
+	 MyMsg.set_y(msg.pose.pose.position.y);
+	 MyMsg.set_z(msg.pose.pose.position.z);
+	 MyMsg.set_w(timeCounter);
+   	 return MyMsg;
+      }
+
+	
+
       void PoseCallback(const nav_msgs::Odometry& msg)
       {
 	msgs::Quaternion MyMsg;
@@ -167,14 +272,14 @@ namespace gazebo
 
 
          int second = 1000000;
-	 if(print_counter == 1)
+	 if(print_counter_1 == 1)
 	 {
 
 	 	MyMsg.set_x(msg.pose.pose.position.x);
 	    	MyMsg.set_y(msg.pose.pose.position.y);
 	   	MyMsg.set_z(msg.pose.pose.position.z);
 		MyMsg.set_w(timeCounter);
-   		this->publisher2->Publish(MyMsg);
+   		this->publisherRobotPose->Publish(MyMsg);
 	        robotSimulationPose.push_back(coordinates{msg.pose.pose.position.x,
 						msg.pose.pose.position.y,
 						msg.pose.pose.position.z,
@@ -204,15 +309,49 @@ namespace gazebo
          {
             case 501:
             {
-		print_counter = 1;		
-               this->rosnode = new ros::NodeHandle();
-               rossub = rosnode->subscribe("/pioneer_1/RosAria/pose", 10, &WorldPluginProject::PoseCallback, this);
+		print_counter_1 = 1;
+	       if(pionier_1_subscriber_not_induced){		
+               		this->rosnode = new ros::NodeHandle();
+               		rossub = rosnode->subscribe("/pioneer_1/RosAria/pose", 1, &WorldPluginProject::PoseCallbackRobot1, this);
+		}
 		break;
             }
+            case 502:
+            {
+		print_counter_2 = 1;
+	       if(pionier_2_subscriber_not_induced){		
+               		this->rosnode = new ros::NodeHandle();
+               		rossub = rosnode->subscribe("/pioneer_2/RosAria/pose", 1, &WorldPluginProject::PoseCallbackRobot2, this);
+		}
+		break;
+            }
+            case 503:
+            {
+		print_counter_3 = 1;
+	       if(pionier_3_subscriber_not_induced){		
+               		this->rosnode = new ros::NodeHandle();
+               		rossub = rosnode->subscribe("/pioneer_3/RosAria/pose", 1, &WorldPluginProject::PoseCallbackRobot3, this);
+		}
+		break;
+            }
+
+
 	    case 511:
             {
 
-		print_counter = 2;
+		print_counter_1 = 2;
+		break;
+	    }
+	    case 512:
+            {
+
+		print_counter_2 = 2;
+		break;
+	    }
+	    case 513:
+            {
+
+		print_counter_3 = 2;
 		break;
 	    }
             case 99:
@@ -318,6 +457,9 @@ namespace gazebo
       transport::NodePtr node;
       transport::SubscriberPtr subscriber;
       transport::PublisherPtr publisher;
+      gazebo::transport::PublisherPtr publisherRobotPose;
+      gazebo::transport::PublisherPtr publisherRobotPose2;
+      gazebo::transport::PublisherPtr publisherRobotPose3;
       physics::WorldPtr world;
       int model_counter;
       ros::Subscriber rossub;

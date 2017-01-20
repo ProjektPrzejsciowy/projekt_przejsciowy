@@ -35,11 +35,16 @@ class ResultsWindow : public QDialog
             
    private:
       void Received(const boost::shared_ptr<const gazebo::msgs::Quaternion> &msg);
+      void Received2(const boost::shared_ptr<const gazebo::msgs::Quaternion> &msg);
+      void Received3(const boost::shared_ptr<const gazebo::msgs::Quaternion> &msg);
       QTimer dataTimer;
       gazebo::transport::NodePtr node;
       gazebo::transport::PublisherPtr publisher;
       
-      gazebo::transport::SubscriberPtr subscriber;
+      gazebo::transport::SubscriberPtr subscriberRobot1;
+      gazebo::transport::SubscriberPtr subscriberRobot2;
+      gazebo::transport::SubscriberPtr subscriberRobot3;
+
 };
 
 #endif

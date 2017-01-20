@@ -51,7 +51,9 @@ ResultsWindow::ResultsWindow() : QDialog()
 	this->node->Init();
 	this->publisher = this->node->Advertise<msgs::Int>("~/buttons");
 
-	this->subscriber = node->Subscribe("~/robotPose", &ResultsWindow::Received, this);
+	this->subscriberRobot1 = node->Subscribe("~/robotPose", &ResultsWindow::Received, this);
+	this->subscriberRobot2 = node->Subscribe("~/robot2Pose", &ResultsWindow::Received2, this);
+	this->subscriberRobot3 = node->Subscribe("~/robot3Pose", &ResultsWindow::Received3, this);
 	
 	
 
@@ -61,12 +63,35 @@ void ResultsWindow::Received(const boost::shared_ptr<const msgs::Quaternion> &ms
 {
 	x1.push_back(double(msg->x()));
 	y1.push_back(double(msg->y()));
+cout<<"R1: X: "<<msg->x()<<" Y: "<<msg->y()<<endl;
 	
 }
+
+void ResultsWindow::Received2(const boost::shared_ptr<const msgs::Quaternion> &msg)
+{
+//	x1.push_back(double(msg->x()));
+//	y1.push_back(double(msg->y()));
+cout<<"R2: X: "<<msg->x()<<" Y: "<<msg->y()<<endl;
+	
+}
+
+void ResultsWindow::Received3(const boost::shared_ptr<const msgs::Quaternion> &msg)
+{
+//	x1.push_back(double(msg->x()));
+//	y1.push_back(double(msg->y()));
+cout<<"R3: X: "<<msg->x()<<" Y: "<<msg->y()<<endl;
+	
+}
+
+
 void ResultsWindow::OnButtonPoseReg1()
 {
 	msgs::Int MyMsg;
 	MyMsg.set_data(501);
+	this->publisher->Publish(MyMsg);
+	MyMsg.set_data(502);
+	this->publisher->Publish(MyMsg);
+	MyMsg.set_data(503);
 	this->publisher->Publish(MyMsg);
 }
 
