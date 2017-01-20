@@ -6,7 +6,8 @@ using namespace gazebo;
 
 ResultsWindow::ResultsWindow() : QDialog()
 {
-
+        this->setWindowFlags(Qt::WindowStaysOnTopHint);
+        
 	QTabWidget *table = new QTabWidget(this);
 	table->setGeometry(QRect(QPoint(10, 10),QSize(650, 480)));
    
