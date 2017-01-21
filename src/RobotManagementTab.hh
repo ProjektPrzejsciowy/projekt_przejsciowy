@@ -36,6 +36,10 @@ private:
     State state;
 
 public:
+    QLineEdit *lineEditX;
+    QLineEdit *lineEditY;
+    QLineEdit *lineEditOrient;
+
     RobotManagementTab(std::string topicName);
     RobotManagementTab() = delete;
     void receivedMsg ( const boost::shared_ptr<const gazebo::msgs::Int> &msg );
@@ -48,9 +52,6 @@ private slots:
 private:
     QWidget *verticalLayoutWidget;
     QVBoxLayout *verticalLayout;
-    QLineEdit *lineEditX;
-    QLineEdit *lineEditY;
-    QLineEdit *lineEditOrient;
     QSpacerItem *verticalSpacer;
     // Ustawianie i resetowanie polozenia i orientacji
     QHBoxLayout *horizontalLayout;
