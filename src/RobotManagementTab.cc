@@ -13,7 +13,7 @@ RobotManagementTab::RobotManagementTab(string topicName) :
     // Lewa czesc - ustawianie polozenia i orientacji
     verticalLayoutWidget = new QWidget ( this );
     verticalLayoutWidget->setObjectName ( "verticalLayoutWidget" );
-    verticalLayoutWidget->setGeometry ( QRect ( QPoint(20, 20), QSize(150, 90)) );
+    verticalLayoutWidget->setGeometry ( QRect ( QPoint(30, 10), QSize(150, 90)) );
     verticalLayout = new QVBoxLayout;
     verticalLayout->setSpacing ( 6 );
     verticalLayout->setContentsMargins ( 11, 11, 11, 11 );
@@ -64,22 +64,12 @@ RobotManagementTab::RobotManagementTab(string topicName) :
     verticalLayout->addLayout ( horizontalLayout );
 
     verticalLayoutWidget->setLayout(verticalLayout);
-
-    // Nazwa topicu
+    
+     // Nazwa topicu
     labelTopicName = new QLabel ( this );
     labelTopicName->setObjectName ( "labelTopicName" );
     labelTopicName->setText ( QString::fromStdString(topicName) );
-    labelTopicName->setGeometry ( QRect ( 210, 20, 120, 20 ) );
-
-    // Przycisk start/stop
-    pushButtonStartStop = new QPushButton ( this );
-    pushButtonStartStop->setObjectName ( "pushButtonStartStop" );
-    pushButtonStartStop->setText ( QString() );
-    pushButtonStartStop->setGeometry ( QRect ( 210, 50, 50, 50 ) );
-    icon_green.addFile ( "/root/catkin_ws/src/projekt_przejsciowy/res/glossy-green-button.png", QSize(), QIcon::Normal, QIcon::Off ); 
-    icon_red.addFile ( "/root/catkin_ws/src/projekt_przejsciowy/res/glossy-red-button.png", QSize(), QIcon::Normal, QIcon::Off );
-    pushButtonStartStop->setIcon ( icon_green ); 
-    pushButtonStartStop->setIconSize ( QSize ( 50, 50 ) );
+    labelTopicName->setGeometry ( QRect ( 230, 20, 120, 20 ) );
 
     // Sloty
     QMetaObject::connectSlotsByName ( this );
@@ -88,19 +78,6 @@ RobotManagementTab::RobotManagementTab(string topicName) :
    this->node = gazebo::transport::NodePtr ( new gazebo::transport::Node() );
    this->node->Init();
    this->publisher = this->node->Advertise<gazebo::msgs::Int> ( "~/buttons" ); // Topic okreslony w WorldControl.cc
-}
-
-void RobotManagementTab::on_pushButtonStartStop_clicked() {
-    if ( state == Start ) {
-        state = Stop;
-        pushButtonStartStop->setIcon ( icon_red );
-        pushButtonStartStop->setIconSize ( QSize ( 40, 40 ) );
-    }
-    else {
-        state = Start;
-        pushButtonStartStop->setIcon ( icon_green );
-        pushButtonStartStop->setIconSize ( QSize ( 50, 50 ) );
-    }
 }
 
 void RobotManagementTab::on_pushButtonUstaw_clicked() {

@@ -40,13 +40,11 @@ public:
     RobotManagementWindow();
     //~RobotManagementWindow(); // Nie moze byc destruktora, inaczej nie dziala!
     void addNewTab(std::string tab_name);
-    //void receivedMsg ( const boost::shared_ptr<const gazebo::msgs::Int> &msg );
 
 private:
     QTabWidget *tabWidgetRobots;
     std::vector < QWidget * > tabRobots;
     QWidget *tabRobot;    
-    //bool tabAddedRobots[7];
 
 public slots:
     void onAddNewRobot(int id);
@@ -56,9 +54,6 @@ public:
     int robots_counter;
 
 private:
-    //gazebo::transport::NodePtr node;
-    //gazebo::transport::PublisherPtr publisher;
-    //gazebo::transport::SubscriberPtr subscriber;
     
 };
 

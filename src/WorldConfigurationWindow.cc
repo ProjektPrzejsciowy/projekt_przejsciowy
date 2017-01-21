@@ -57,14 +57,6 @@ WorldConfigurationWindow::WorldConfigurationWindow() : QDialog()
    //buttonDeleteRobot->setVisible(false);
    connect(buttonDeleteRobot, SIGNAL(clicked()), this, SLOT(OnButtonDeleteRobot()));
 
-   //pushButtonZatwierdz = new QPushButton("Zatwierdz",this);
-   //pushButtonZatwierdz->setGeometry(QRect(QPoint(630, 170),QSize(120, 30)));
-   //connect(pushButtonZatwierdz, SIGNAL(clicked()), this, SLOT(OnPushButtonZatwierdz()));
-
-   QPushButton *buttonTmp = new QPushButton("pioneer_1 pose w konsoli",this);
-   buttonTmp->setGeometry(QRect(QPoint(280, 170),QSize(180, 30)));
-   connect(buttonTmp, SIGNAL(clicked()), this, SLOT(OnButtonTmp()));
-   
    this->adjustSize();
    this->setFixedSize(this->size());
    
@@ -126,27 +118,5 @@ void WorldConfigurationWindow::OnButtonDeleteRobot()
    }
 }
 
-void WorldConfigurationWindow::OnPushButtonZatwierdz()
-{
-    /*
-    gazebo::msgs::Int msg;
-    // Add
-    for (int i=0; i<addedRobotList->count(); ++i) {
-        string robot_name = addedRobotList->item(i)->text().toStdString();
-        int robot_id = robot_name[robot_name.length()-1] - '0';
-        msg.set_data( 100 + robot_id );  // switch in world_plugin.cc 
-        this->publisher->Publish(msg); 
-        emit addNewRobot(robot_id);
-    }
-    // Hide
-    for (int i=0; i<robotListToAdd->count(); ++i) {
-        string robot_name = robotListToAdd->item(i)->text().toStdString();
-        int robot_id = robot_name[robot_name.length()-1] - '0';
-        msg.set_data( 200 + robot_id );  // switch in world_plugin.cc
-        this->publisher->Publish(msg); 
-        emit hideARobot(robot_id);
-    }
-    */
-}
 
 
