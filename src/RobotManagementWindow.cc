@@ -74,21 +74,21 @@ void RobotManagementWindow::onAddNewRobot(int id) {
 
    if ( id == 1 )
    {
-      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(0)))->lineEditX->setText(QString::number(pioneer_1_X));
-      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(0)))->lineEditY->setText(QString::number(pioneer_1_Y));
-      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(0)))->lineEditOrient->setText(QString::number(pioneer_1_YAW));
+      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(0)))->lineEditX->setText(QString::number(pioneer_1_X, 'f', 3));
+      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(0)))->lineEditY->setText(QString::number(pioneer_1_Y, 'f', 3));
+      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(0)))->lineEditOrient->setText(QString::number(pioneer_1_YAW, 'f', 3));
    }
    else if ( id == 2 )
    {
-      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(1)))->lineEditX->setText(QString::number(pioneer_2_X));
-      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(1)))->lineEditY->setText(QString::number(pioneer_2_Y));
-      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(1)))->lineEditOrient->setText(QString::number(pioneer_2_YAW));
+      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(1)))->lineEditX->setText(QString::number(pioneer_2_X, 'f', 3));
+      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(1)))->lineEditY->setText(QString::number(pioneer_2_Y, 'f', 3));
+      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(1)))->lineEditOrient->setText(QString::number(pioneer_2_YAW, 'f', 3));
    }
    else if ( id == 3 )
    {
-      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(2)))->lineEditX->setText(QString::number(pioneer_3_X));
-      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(2)))->lineEditY->setText(QString::number(pioneer_3_Y));
-      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(2)))->lineEditOrient->setText(QString::number(pioneer_3_YAW));
+      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(2)))->lineEditX->setText(QString::number(pioneer_3_X, 'f', 3));
+      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(2)))->lineEditY->setText(QString::number(pioneer_3_Y, 'f', 3));
+      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(2)))->lineEditOrient->setText(QString::number(pioneer_3_YAW, 'f', 3));
    }  
 }
 
@@ -100,21 +100,21 @@ void RobotManagementWindow::onHideARobot(int id) {
 void RobotManagementWindow::tabSelected(int value) {
    if ( value == 0 )
    {
-      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(0)))->lineEditX->setText(QString::number(pioneer_1_X));
-      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(0)))->lineEditY->setText(QString::number(pioneer_1_Y));
-      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(0)))->lineEditOrient->setText(QString::number(pioneer_1_YAW));
+      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(0)))->lineEditX->setText(QString::number(pioneer_1_X, 'f', 3));
+      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(0)))->lineEditY->setText(QString::number(pioneer_1_Y, 'f', 3));
+      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(0)))->lineEditOrient->setText(QString::number(pioneer_1_YAW, 'f', 3));
    }
    else if ( value == 1 )
    {
-      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(1)))->lineEditX->setText(QString::number(pioneer_2_X));
-      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(1)))->lineEditY->setText(QString::number(pioneer_2_Y));
-      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(1)))->lineEditOrient->setText(QString::number(pioneer_2_YAW));
+      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(1)))->lineEditX->setText(QString::number(pioneer_2_X, 'f', 3));
+      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(1)))->lineEditY->setText(QString::number(pioneer_2_Y, 'f', 3));
+      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(1)))->lineEditOrient->setText(QString::number(pioneer_2_YAW, 'f', 3));
    }
    else if ( value == 2 )
    {
-      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(2)))->lineEditX->setText(QString::number(pioneer_3_X));
-      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(2)))->lineEditY->setText(QString::number(pioneer_3_Y));
-      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(2)))->lineEditOrient->setText(QString::number(pioneer_3_YAW));
+      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(2)))->lineEditX->setText(QString::number(pioneer_3_X, 'f', 3));
+      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(2)))->lineEditY->setText(QString::number(pioneer_3_Y, 'f', 3));
+      (qobject_cast<RobotManagementTab *>(tabWidgetRobots->widget(2)))->lineEditOrient->setText(QString::number(pioneer_3_YAW, 'f', 3));
    }  
 }
 
@@ -135,7 +135,7 @@ void RobotManagementWindow::OnPoseMsg(ConstPosesStampedPtr &msg)
          double x = orientation.x();
          double y = orientation.y();
          double z = orientation.z();
-         pioneer_1_YAW = atan2(2.0 * (x*y + z*w),(x*x - y*y - z*z + w*w));
+         pioneer_1_YAW = atan2(2.0 * (x*y + z*w), (x*x - y*y - z*z + w*w));
       }
       else if ( name == std::string("pioneer_2") )
       {
@@ -148,7 +148,7 @@ void RobotManagementWindow::OnPoseMsg(ConstPosesStampedPtr &msg)
          double x = orientation.x();
          double y = orientation.y();
          double z = orientation.z();
-         pioneer_2_YAW = atan2(2.0 * (x*y + z*w),(x*x - y*y - z*z + w*w));
+         pioneer_2_YAW = atan2(2.0 * (x*y + z*w), (x*x - y*y - z*z + w*w));
       }
       else if ( name == std::string("pioneer_3") )
       {
@@ -161,7 +161,7 @@ void RobotManagementWindow::OnPoseMsg(ConstPosesStampedPtr &msg)
          double x = orientation.x();
          double y = orientation.y();
          double z = orientation.z();
-         pioneer_3_YAW = atan2(2.0 * (x*y + z*w),(x*x - y*y - z*z + w*w));
+         pioneer_3_YAW = atan2(2.0 * (x*y + z*w), (x*x - y*y - z*z + w*w));
       }
    }
 }
