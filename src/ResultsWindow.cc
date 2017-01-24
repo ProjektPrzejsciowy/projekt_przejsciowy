@@ -9,39 +9,49 @@ ResultsWindow::ResultsWindow() : QDialog()
         this->setWindowFlags(Qt::WindowStaysOnTopHint);
         
 	QTabWidget *table = new QTabWidget(this);
-	table->setGeometry(QRect(QPoint(10, 10),QSize(650, 480)));
+	table->setGeometry(QRect(QPoint(10, 10),QSize(650, 440)));
    
 	QWidget *tab1 = new QWidget();
-	table->addTab(tab1, "Pionier_1");
+	table->addTab(tab1, "Pionier_1 X-Y");
 	
-
 	plot = new QCustomPlot(tab1);
 	plot->setGeometry(QRect(QPoint(10, 10),QSize(600, 400)));
-	
-	//plot->addGraph();	
-	//plot->graph(0)->setPen(QPen(QColor(40, 110, 255)));
 	plot->xAxis->setRange(-6, 6);
 	plot->yAxis->setRange(-4, 4);
 	plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
 	plot->axisRect()->setupFullAxesBox();
 	plot->rescaleAxes();
 
+
+	QWidget *tab2 = new QWidget();
+	table->addTab(tab2, "Pionier_1 X,Y(t)");		
+	plot2 = new QCustomPlot(tab2);
+	plot2->setGeometry(QRect(QPoint(10, 10),QSize(600, 400)));
+	plot2->xAxis->setRange(0, 12);
+	plot2->yAxis->setRange(-4, 4);
+	plot2->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
+	plot2->axisRect()->setupFullAxesBox();
+	plot2->rescaleAxes();
+	plot2->addGraph();
+	plot2->addGraph();
+	plot2->graph(1)->setPen(QPen(Qt::red));
+	
 	Spiral1 = new QCPCurve(this->plot->xAxis, this->plot->yAxis);
 	connect(&dataTimer, SIGNAL(timeout()), this, SLOT(realtimeDataSlot()));
- 	dataTimer.start(500); // Interval 0 means to refresh as fast as possible
+ 	dataTimer.start(300); // Interval 0 means to refresh as fast as possible
 	
 
 
-	QPushButton *buttonPoseReg1 = new QPushButton("Rejestruj pozycje", tab1);
-	buttonPoseReg1->setGeometry(QRect(QPoint(10, 420),QSize(180, 30)));
+	QPushButton *buttonPoseReg1 = new QPushButton("Rejestruj pozycje", this);
+	buttonPoseReg1->setGeometry(QRect(QPoint(10, 455),QSize(180, 30)));
 	connect(buttonPoseReg1, SIGNAL(clicked()), this, SLOT(OnButtonPoseReg1()));
 	
-	QPushButton *buttonSave1 = new QPushButton("Pauza", tab1);
-	buttonSave1->setGeometry(QRect(QPoint(200, 420),QSize(180, 30)));
+	QPushButton *buttonSave1 = new QPushButton("Pauza", this);
+	buttonSave1->setGeometry(QRect(QPoint(200, 455),QSize(180, 30)));
 	connect(buttonSave1, SIGNAL(clicked()), this, SLOT(OnButtonSave1()));
 
-	QPushButton *buttonStop = new QPushButton("Stop", tab1);
-	buttonStop->setGeometry(QRect(QPoint(400, 420),QSize(100, 30)));
+	QPushButton *buttonStop = new QPushButton("Zapisz do pliku", this);
+	buttonStop->setGeometry(QRect(QPoint(390, 455),QSize(180, 30)));
 	connect(buttonStop, SIGNAL(clicked()), this, SLOT(OnButtonStop()));
 
 
@@ -53,10 +63,6 @@ ResultsWindow::ResultsWindow() : QDialog()
 	this->publisher = this->node->Advertise<msgs::Int>("~/buttons");
 
 	this->subscriberRobot1 = node->Subscribe("~/robotPose", &ResultsWindow::Received, this);
-	this->subscriberRobot2 = node->Subscribe("~/robot2Pose", &ResultsWindow::Received2, this);
-	this->subscriberRobot3 = node->Subscribe("~/robot3Pose", &ResultsWindow::Received3, this);
-	
-	
 
 }
 
@@ -64,35 +70,17 @@ void ResultsWindow::Received(const boost::shared_ptr<const msgs::Quaternion> &ms
 {
 	x1.push_back(double(msg->x()));
 	y1.push_back(double(msg->y()));
-cout<<"R1: X: "<<msg->x()<<" Y: "<<msg->y()<<endl;
+	t.push_back(double(msg->w()));
+cout<<"R1: X: "<<msg->x()<<" T: "<<msg->w()<<endl;
 	
 }
 
-void ResultsWindow::Received2(const boost::shared_ptr<const msgs::Quaternion> &msg)
-{
-//	x1.push_back(double(msg->x()));
-//	y1.push_back(double(msg->y()));
-cout<<"R2: X: "<<msg->x()<<" Y: "<<msg->y()<<endl;
-	
-}
-
-void ResultsWindow::Received3(const boost::shared_ptr<const msgs::Quaternion> &msg)
-{
-//	x1.push_back(double(msg->x()));
-//	y1.push_back(double(msg->y()));
-cout<<"R3: X: "<<msg->x()<<" Y: "<<msg->y()<<endl;
-	
-}
 
 
 void ResultsWindow::OnButtonPoseReg1()
 {
 	msgs::Int MyMsg;
 	MyMsg.set_data(501);
-	this->publisher->Publish(MyMsg);
-	MyMsg.set_data(502);
-	this->publisher->Publish(MyMsg);
-	MyMsg.set_data(503);
 	this->publisher->Publish(MyMsg);
 }
 
@@ -110,6 +98,10 @@ void ResultsWindow::OnButtonStop()
 	this->publisher->Publish(MyMsg);
 	this->x1.clear();
 	this->y1.clear();
+	this->t.clear();
+	this->plot2->graph(0)->setData(this->t, this->x1);
+	this->plot2->graph(1)->setData(this->t, this->y1);
+	this->plot2->replot();
 }
 
 
@@ -122,6 +114,11 @@ void ResultsWindow::realtimeDataSlot()
   //{
    	this->Spiral1->setData(this->x1, this->y1);
 	this->plot->replot();
+	this->plot2->graph(0)->addData(this->t.last(), this->x1.last());
+	this->plot2->graph(1)->addData(this->t.last(), this->y1.last());
+	if(this->t.last() > 11) 
+		this->plot2->xAxis->setRange(0, this->t.last()+1);
+	this->plot2->replot();
   //  lastPointKey = key;
   //}
 
