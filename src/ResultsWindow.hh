@@ -1,6 +1,9 @@
 #ifndef _RESULTS_WINDOW_HH_
 #define _RESULTS_WINDOW_HH_
 
+#include <fstream>
+#include <iostream>
+
 #include <QDialog>
 #include <QListWidget>
 #include <QString>
@@ -20,14 +23,20 @@ class ResultsWindow : public QDialog
       ResultsWindow();
       QCustomPlot *plot;
       QCustomPlot *plot2;
+      QCustomPlot *plot3;
+      QCustomPlot *plot4;
       QCPCurve *Spiral1;
+      QCPCurve *Spiral2;
+      QCPCurve *Spiral3;
       QListWidget *parametersList;
-	QVector<double> x1; /**< vector przechowujący współrzędne x trasy */
-	QVector<double> y1; /**< vector przechowujący współrzędne y trasy */
+	QVector<double> x0, y0, w0, t0;
+	QVector<double> x1, x2, x3; /**< vector przechowujący współrzędne x trasy */
+	QVector<double> y1, y2, y3; /**< vector przechowujący współrzędne y trasy */
+	QVector<double> w1, w2, w3; /**< vector przechowujący orientacje */
 	QVector<double> t;  /**< vector przechowujący czas */
 
    private slots:
-	void OnButtonPoseReg1();
+//	void OnButtonPoseReg1();
 	void OnButtonSave1();
 	void OnButtonStop();
 	
@@ -35,9 +44,9 @@ class ResultsWindow : public QDialog
 	
             
    private:
-      void Received(const boost::shared_ptr<const gazebo::msgs::Quaternion> &msg);
-      void Received2(const boost::shared_ptr<const gazebo::msgs::Quaternion> &msg);
-      void Received3(const boost::shared_ptr<const gazebo::msgs::Quaternion> &msg);
+      void Received(ConstPosesStampedPtr &msg);
+      void saveRawFile();
+      double saveFilter(double value);
       QTimer dataTimer;
       gazebo::transport::NodePtr node;
       gazebo::transport::PublisherPtr publisher;

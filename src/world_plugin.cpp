@@ -64,30 +64,7 @@ namespace gazebo
          }
       }
 
-      void SaveFile(const vector<coordinates>& robotSimulationPose)
-      {
-	
-//	msgs::Int MyMsg;
-//	MyMsg.set_data(555);
-//               this->publisher2->Publish(MyMsg);
-	 ofstream file("/root/robot_pose.csv");
-	 if(file.good())
-	 {
-	   file<<"#Pionier1 X:,Pionier1 Y:,Pionier1 Z:,time:"<<endl;
-	   for(const auto& r : robotSimulationPose)
-		{
-		  file << r.x << "," << r.y << "," << r.z << "," << r.t << endl;
-		}
-	   file.close();
 
-	   cout << "Zapisano plik!" << endl;
-	 }
-	else
-	{
-		cout << "Błąd zapisu pliku!" << endl;
-	}
-	 
-      }
 
       void DeleteStaticModels()
       {
@@ -164,38 +141,6 @@ namespace gazebo
          }
       }
 
-      void PoseCallback(const nav_msgs::Odometry& msg)
-      {
-	msgs::Quaternion MyMsg;
-	
-
-
-         int second = 1000000;
-	 if(print_counter == 1)
-	 {
-
-	 	MyMsg.set_x(msg.pose.pose.position.x);
-	    	MyMsg.set_y(msg.pose.pose.position.y);
-	   	MyMsg.set_z(msg.pose.pose.position.z);
-		MyMsg.set_w(timeCounter);
-   		this->publisherRobotPose->Publish(MyMsg);
-	        robotSimulationPose.push_back(coordinates{msg.pose.pose.position.x,
-						msg.pose.pose.position.y,
-						msg.pose.pose.position.z,
-	 	 				timeCounter});
-		timeCounter += stepTime;
-	 }
-	 if(print_counter == 2)
-	 {
-		if(timeCounter > 0)
-			SaveFile(robotSimulationPose);
-		print_counter = 0;
-		timeCounter = 0;
-	 }
-	
-	 usleep(stepTime*second);
-	 
-      }
 
       void Received(const boost::shared_ptr<const msgs::Int> &msg)
       {
@@ -206,23 +151,7 @@ namespace gazebo
 
          switch (msg->data())
          {
-            case 501:
-            {
-		print_counter = 1;
-	       if(pionier_1_subscriber_not_induced){		
-               		this->rosnode = new ros::NodeHandle();
-               		rossub = rosnode->subscribe("/pioneer_1/RosAria/pose", 1, &WorldPluginProject::PoseCallback, this);
-		}
-		break;
-            }
 
-
-	    case 511:
-            {
-
-		print_counter = 2;
-		break;
-	    }
 
             case 99:
             {
