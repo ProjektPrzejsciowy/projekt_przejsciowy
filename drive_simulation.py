@@ -104,7 +104,7 @@ class  RosAriaDriver():
   def Rotate(self,angle):
       
 
-      if angle < -3.14 or angle > 3.14:
+      if angle < -math.pi or angle >= math.pi :
 	rospy.loginfo ("Angle should be in (-3.14, 3.14)")        
 	return None
 
